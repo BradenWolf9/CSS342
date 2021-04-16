@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# created by Matt Wenger
+
 # To more easily compile and run this program on CSS Linux Lab
 # Lines starting with '$' indicate what is typed on command line
 
