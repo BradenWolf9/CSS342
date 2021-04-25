@@ -114,7 +114,6 @@ TimeSpan &TimeSpan::operator+(const TimeSpan &ts) {
   if(!this->isNegative) {
     flipSign();
   }
-
   if(!ts.isNegative) {
     flipSign();
   }
@@ -136,7 +135,6 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
   if(!this->isNegative) {
     flipSign();
   }
-
   if(!ts.isNegative) {
     flipSign();
   }
@@ -152,13 +150,37 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
 
 // add given TimeSpan to this TimeSpan
 TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
-  *this = *this + ts;
+  if(!this->isNegative) {
+    flipSign();
+  }
+  if(!ts.isNegative) {
+    flipSign();
+  }
+
+  this->second = this->second + ts.second;
+  this->minute = this->minute + ts.minute;
+  this->hour = this->hour + ts.hour;
+
+  this->simplify();
+
   return *this;
 }
 
 // subtract given TimeSpan from this TimeSpan
 TimeSpan &TimeSpan::operator-=(const TimeSpan &ts) {
-  *this = *this - ts;
+  if(!this->isNegative) {
+    flipSign();
+  }
+  if(!ts.isNegative) {
+    flipSign();
+  }
+
+  this->second = this->second - ts.second;
+  this->minute = this->minute - ts.minute;
+  this->hour = this->hour - ts.hour;
+
+  this->simplify();
+
   return *this;
 }
 
@@ -246,4 +268,3 @@ TimeSpan::~TimeSpan() {
   delete this->tsSub;
   delete this->tsProduct;
 }
-
