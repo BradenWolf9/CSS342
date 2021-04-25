@@ -58,7 +58,7 @@ TimeSpan::TimeSpan(double hour, double minute, double second) :
     less{copy.less}, greater{copy.greater} {}
 
   // copy assignment operator
-  TimeSpan &TimeSpan::operator=(const TimeSpan &copy) = default;
+  TimeSpan &TimeSpan::operator=() = default;
 
 
 
