@@ -21,7 +21,7 @@ public:
   explicit TimeSpan(double hour = 0, double minute = 0, double second = 0);
 
   // copy constructor
-  TimeSpan(const TimeSpan &copy);
+  TimeSpan(const TimeSpan &copy) = default;
 
   // copy assignment operator
   TimeSpan &operator=(const TimeSpan &copy) = default;

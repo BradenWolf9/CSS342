@@ -51,12 +51,6 @@ TimeSpan::TimeSpan(double hour, double minute, double second) :
     this->simplify();
   }
 
-  // copy constructor
-  TimeSpan::TimeSpan(const TimeSpan &copy) : hour{copy.hour}, minute{copy.minute},
-    second{copy.second}, totalSeconds{copy.totalSeconds}, isNegative{copy.isNegative},
-    tsSum{copy.tsSum}, tsSub{copy.tsSub}, tsProduct{copy.tsProduct},
-    less{copy.less}, greater{copy.greater} {}
-
 
 
 /*************************************************************************
