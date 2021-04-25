@@ -57,9 +57,6 @@ TimeSpan::TimeSpan(double hour, double minute, double second) :
     tsSum{copy.tsSum}, tsSub{copy.tsSub}, tsProduct{copy.tsProduct},
     less{copy.less}, greater{copy.greater} {}
 
-  // copy assignment operator
-  TimeSpan &TimeSpan::operator=() = default;
-
 
 
 /*************************************************************************
@@ -82,6 +79,9 @@ void TimeSpan::simplify () {
   if(!isPositive()) {
     this->isNegative = true;
     flipSign();
+  }
+  else {
+    this->isNegative = false;
   }
 
   if(this->hour == 0) {
@@ -246,3 +246,4 @@ TimeSpan::~TimeSpan() {
   delete this->tsSub;
   delete this->tsProduct;
 }
+
