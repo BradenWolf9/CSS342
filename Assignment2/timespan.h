@@ -24,7 +24,7 @@ public:
   TimeSpan(const TimeSpan &copy);
 
   // copy assignment operator
-  TimeSpan &operator=(const TimeSpan &copy);
+  TimeSpan &operator=();
 
   // move constructor
   TimeSpan(TimeSpan &&move) noexcept;
