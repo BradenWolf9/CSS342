@@ -54,49 +54,6 @@ TimeSpan::TimeSpan(double hour, double minute, double second) :
 
 
 /*************************************************************************
-                              Simplify
-**************************************************************************/
-
-// simplify
-void TimeSpan::simplify () {
-  this->totalSeconds = this->second + (this->minute * 60) + (this->hour * 60 * 60);
-
-  int hours = totalSeconds / (60 * 60);
-  int leftOverHourSeconds = totalSeconds % (60 * 60);
-  int minutes = leftOverHourSeconds / 60;
-  int seconds = leftOverHourSeconds % 60;
-
-  this->hour = hours;
-  this->minute = minutes;
-  this->second = seconds;
-
-  if(!isPositive()) {
-    this->isNegative = true;
-    flipSign();
-  }
-  else {
-    this->isNegative = false;
-  }
-
-  if(this->hour == 0) {
-    this->hour = 0;
-  }
-  if(this->minute == 0) {
-    this->minute = 0;
-  }
-  if(this->second == 0) {
-    this->second = 0;
-  }
-}
-
-// flips sign of each time category
-void TimeSpan::flipSign() {
-  this->hour = this->hour * -1;
-  this->minute = this->minute * -1;
-  this->second = this->second * -1;
-}
-
-/*************************************************************************
                               Math Operations
 **************************************************************************/
 
@@ -261,4 +218,49 @@ TimeSpan::~TimeSpan() {
   delete this->tsSum;
   delete this->tsSub;
   delete this->tsProduct;
+}
+
+
+
+/*************************************************************************
+                              Simplify
+**************************************************************************/
+
+// simplify
+void TimeSpan::simplify () {
+  this->totalSeconds = this->second + (this->minute * 60) + (this->hour * 60 * 60);
+
+  int hours = totalSeconds / (60 * 60);
+  int leftOverHourSeconds = totalSeconds % (60 * 60);
+  int minutes = leftOverHourSeconds / 60;
+  int seconds = leftOverHourSeconds % 60;
+
+  this->hour = hours;
+  this->minute = minutes;
+  this->second = seconds;
+
+  if(!isPositive()) {
+    this->isNegative = true;
+    flipSign();
+  }
+  else {
+    this->isNegative = false;
+  }
+
+  if(this->hour == 0) {
+    this->hour = 0;
+  }
+  if(this->minute == 0) {
+    this->minute = 0;
+  }
+  if(this->second == 0) {
+    this->second = 0;
+  }
+}
+
+// flips sign of each time category
+void TimeSpan::flipSign() {
+  this->hour = this->hour * -1;
+  this->minute = this->minute * -1;
+  this->second = this->second * -1;
 }

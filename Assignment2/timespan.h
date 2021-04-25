@@ -32,12 +32,6 @@ public:
   // move assignment operator
   TimeSpan &operator=(TimeSpan &&move) noexcept;
 
-  // Simplify
-  void simplify();
-
-  // flips sign of each time category
-  void flipSign();
-
   // add
   TimeSpan &operator+(const TimeSpan &ts);
 
@@ -87,6 +81,13 @@ public:
   ~TimeSpan();
 
 private:
+
+  // Simplify
+  void simplify();
+
+  // flips sign of each time category
+  void flipSign();
+
   double hour = 0;
   double minute = 0;
   double second = 0;
