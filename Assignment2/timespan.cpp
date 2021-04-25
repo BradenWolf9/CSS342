@@ -237,13 +237,13 @@ bool TimeSpan::operator>=(const TimeSpan &ts) {
 **************************************************************************/
 
 // hour component
-int TimeSpan::getHour() const { return this->hour; }
+double TimeSpan::getHour() const { return this->hour; }
 
 // minute component
-int TimeSpan::getMinute() const { return this->minute; }
+double TimeSpan::getMinute() const { return this->minute; }
 
 // second component
-int TimeSpan::getSecond() const { return this->second; }
+double TimeSpan::getSecond() const { return this->second; }
 
 // true if timespan is 0 or larger
 bool TimeSpan::isPositive() const {

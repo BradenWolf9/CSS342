@@ -72,13 +72,13 @@ public:
   bool operator>=(const TimeSpan &ts);
 
   // hour component of timespan
-  int getHour() const;
+  double getHour() const;
 
   // minute component of timespan
-  int getMinute() const;
+  double getMinute() const;
 
   // second component of timespan
-  int getSecond() const;
+  double getSecond() const;
 
   // true if timespan is 0 or larger
   bool isPositive() const;
