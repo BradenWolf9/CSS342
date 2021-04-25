@@ -58,10 +58,47 @@ void test3() {
   cout << "test3 complete" << endl;
 }
 
+void test4() {
+  TimeSpan ts0(3, 5, -2);
+  TimeSpan ts1(5, 8, 6);
+  ts0 += ts1;
+  stringstream ss;
+  ss << ts0;
+  assert(ss.str() == "8:13:04");
+  TimeSpan ts2(23, 27, 8);
+  ss.str("");
+  ts2 -= ts0;
+  ss << ts2;
+  cout << "test4 complete" << endl;
+}
+
+void test5() {
+  TimeSpan ts0(2746, 38, -9);
+  TimeSpan ts1(2, 374, -1);
+  assert(ts0 > ts1);
+  assert(ts1 < ts0);
+  TimeSpan ts2(2746, 38, -9);
+  assert(ts0 >= ts2 && ts0 >= ts1);
+  TimeSpan ts3(2,374, -1);
+  assert(ts1 <= ts3 && ts1 <= ts0);
+  cout << "test5 complete" << endl;
+}
+
+void test6() {
+  TimeSpan ts0(472, 45, 8);
+  assert(ts0.getHour() == 472);
+  assert(ts0.getMinute() == 45);
+  assert(ts0.getSecond() == 8);
+  cout << "test6 complete" << endl;
+}
+
 int main() {
   test1();
   test2();
   test3();
+  test4();
+  test5();
+  test6();
   cout << "Done." << std::endl;
   return 0;
 }
