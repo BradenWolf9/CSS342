@@ -90,7 +90,7 @@ private:
   double hour = 0;
   double minute = 0;
   double second = 0;
-  int totalSeconds = 0;
+  double totalSeconds = 0;
   bool isNegative = false;
   TimeSpan *tsSum = nullptr;
   TimeSpan *tsSub = nullptr;
