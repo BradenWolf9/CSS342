@@ -120,10 +120,10 @@ TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
 
 // subtract given TimeSpan from this TimeSpan
 TimeSpan &TimeSpan::operator-=(const TimeSpan &ts) {
-  if(this->isNegative) {
+  if(!this->isNegative) {
     flipSign();
   }
-  if(ts.isNegative) {
+  if(!ts.isNegative) {
     flipSign();
   }
 
