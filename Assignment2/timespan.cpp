@@ -63,10 +63,10 @@ TimeSpan &TimeSpan::operator+(const TimeSpan &ts) {
   delete this->tsSum;
   this->tsSum = new TimeSpan;
 
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
@@ -84,10 +84,10 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
   delete this->tsSub;
   this->tsSub = new TimeSpan;
 
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
@@ -102,17 +102,15 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
 
 // add given TimeSpan to this TimeSpan
 TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
-  this->second = this->second + ts.second;
-  this->minute = this->minute + ts.minute;
-  this->hour = this->hour + ts.hour;
-
+  this->totalSeconds += ts.totalSeconds;
+  convertTotalSeconds();
   this->simplify();
 
   return *this;
@@ -120,17 +118,15 @@ TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
 
 // subtract given TimeSpan from this TimeSpan
 TimeSpan &TimeSpan::operator-=(const TimeSpan &ts) {
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
-  this->second = this->second - ts.second;
-  this->minute = this->minute - ts.minute;
-  this->hour = this->hour - ts.hour;
-
+  this->totalSeconds -= ts.totalSeconds;
+  convertTotalSeconds();
   this->simplify();
 
   return *this;
@@ -228,17 +224,10 @@ TimeSpan::~TimeSpan() {
 **************************************************************************/
 
 // simplify
-void TimeSpan::simplify () {
+void TimeSpan::simplify() {
   this->totalSeconds = this->second + (this->minute * 60) + (this->hour * 60 * 60);
 
-  int hours = totalSeconds / (60 * 60);
-  int leftOverHourSeconds = totalSeconds % (60 * 60);
-  int minutes = leftOverHourSeconds / 60;
-  int seconds = leftOverHourSeconds % 60;
-
-  this->hour = hours;
-  this->minute = minutes;
-  this->second = seconds;
+  convertTotalSeconds();
 
   if(!isPositive()) {
     this->isNegative = true;
@@ -257,6 +246,18 @@ void TimeSpan::simplify () {
   if(this->second == 0) {
     this->second = 0;
   }
+}
+
+// converts total seconds to hours, mnutes, and seconds
+void TimeSpan::convertTotalSeconds() {
+  int hours = this->totalSeconds / (60 * 60);
+  int leftOverHourSeconds = this->totalSeconds % (60 * 60);
+  int minutes = leftOverHourSeconds / 60;
+  int seconds = leftOverHourSeconds % 60;
+
+  this->hour = hours;
+  this->minute = minutes;
+  this->second = seconds;
 }
 
 // flips sign of each time category

@@ -88,6 +88,9 @@ private:
   // Simplify
   void simplify();
 
+  // converts total seconds to hours, mnutes, and seconds
+  void convertTotalSeconds();
+
   // flips sign of each time category
   void flipSign();
 
