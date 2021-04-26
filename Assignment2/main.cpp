@@ -64,11 +64,11 @@ void test3() {
 
 void test4() {
   TimeSpan ts0(3, 5, -2);
-  TimeSpan ts1(5, 8, 6);
+  TimeSpan ts1(-5, 8, 6);
   ts0 += ts1;
   stringstream ss;
   ss << ts0;
-  assert(ss.str() == "8:13:04");
+  assert(ss.str() == "-2:13:04");
   TimeSpan ts2(23, 27, 8);
   ss.str("");
   ts2 -= ts0;
