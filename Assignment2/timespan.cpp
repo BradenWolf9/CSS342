@@ -3,6 +3,7 @@
 //
 // Adjusted by Braden Wolf 4/22/21
 //
+// Implementation file for TimeSpan class
 
 #include "timespan.h"
 
@@ -12,7 +13,7 @@
                               Insert
 **************************************************************************/
 
-// insert 0:00:00
+// insert, generate format: 0:00:00
 ostream &operator<<(ostream &out, const TimeSpan &ts) {
   if(ts.isNegative) {
     out << "-";
@@ -62,10 +63,10 @@ TimeSpan &TimeSpan::operator+(const TimeSpan &ts) {
   delete this->tsSum;
   this->tsSum = new TimeSpan;
 
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
@@ -83,10 +84,10 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
   delete this->tsSub;
   this->tsSub = new TimeSpan;
 
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
@@ -101,10 +102,10 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
 
 // add given TimeSpan to this TimeSpan
 TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 
@@ -119,10 +120,10 @@ TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
 
 // subtract given TimeSpan from this TimeSpan
 TimeSpan &TimeSpan::operator-=(const TimeSpan &ts) {
-  if(!this->isNegative) {
+  if(this->isNegative) {
     flipSign();
   }
-  if(!ts.isNegative) {
+  if(ts.isNegative) {
     flipSign();
   }
 

@@ -1,3 +1,7 @@
+/*
+ * This file is used to test the timespan class
+ */
+
 #include <cassert>
 #include <iostream>
 #include <sstream>

@@ -3,6 +3,7 @@
 //
 // Adjusted by Braden Wolf on 4/22/21
 //
+// Header file for TimeSpan class
 
 #ifndef ASS2_TIMESPAN_H
 #define ASS2_TIMESPAN_H
@@ -12,8 +13,10 @@
 
 using namespace std;
 
+// TimeSpan class which represents a duration in hours,
+// minutes, and seconds
 class TimeSpan {
-  // insert 0:00:00
+  // insert, generate format: 0:00:00
   friend ostream &operator<<(ostream &out, const TimeSpan &ts);
 
 public:
