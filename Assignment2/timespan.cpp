@@ -63,10 +63,10 @@ TimeSpan &TimeSpan::operator+(const TimeSpan &ts) {
   delete this->tsSum;
   this->tsSum = new TimeSpan;
 
-  if(this->isNegative) {
+  if(!this->isNegative) {
     flipSign();
   }
-  if(ts.isNegative) {
+  if(!ts.isNegative) {
     flipSign();
   }
 
@@ -84,10 +84,10 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
   delete this->tsSub;
   this->tsSub = new TimeSpan;
 
-  if(this->isNegative) {
+  if(!this->isNegative) {
     flipSign();
   }
-  if(ts.isNegative) {
+  if(!ts.isNegative) {
     flipSign();
   }
 
@@ -102,10 +102,10 @@ TimeSpan &TimeSpan::operator-(const TimeSpan &ts) {
 
 // add given TimeSpan to this TimeSpan
 TimeSpan &TimeSpan::operator+=(const TimeSpan &ts) {
-  if(this->isNegative) {
+  if(!this->isNegative) {
     flipSign();
   }
-  if(ts.isNegative) {
+  if(!ts.isNegative) {
     flipSign();
   }
 
