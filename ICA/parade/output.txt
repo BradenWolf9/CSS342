@@ -1,0 +1,6 @@
+Generated 33 random entrants of 19 bands and 14 floats
+Output string length must be >= 28
+Input: bbfbbfbbfffbbbffbfbbfbfbfbfbbffbb
+Output: bfbfbfbfbfbfbfbfbfbfbfbfbfbfb
+Output string length: 29
+Test passed - da iawn ti!

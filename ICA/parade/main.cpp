@@ -29,8 +29,26 @@ std::string organizeParade(std::string entrants) {
 
   // Your code goes here...
 
-  
+  std::stack<char> myStack;
 
+  output.push_back(entrants[0]);
+
+  for (unsigned int i = 1; i < entrants.length(); i++) {
+    if (myStack.empty()) {
+      if (entrants[i] == entrants[i - 1]) {
+        myStack.push(entrants[i]);
+      } else {
+        output.push_back(entrants[i]);
+      }
+    } else {
+      if (entrants[i] == myStack.top()) {
+        myStack.push(entrants[i]);
+      } else {
+        output.push_back(entrants[i]);
+        output.push_back(myStack.top());
+      }
+    }
+  }
   return output;
 }
 
