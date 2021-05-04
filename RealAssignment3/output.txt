@@ -1,0 +1,47 @@
+Mon May  3 16:58:09 PDT 2021
+*** compiling with clang++ to create an executable called myprogram
+clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
+Target: x86_64-pc-linux-gnu
+Thread model: posix
+InstalledDir: /usr/bin
+*** running clang-tidy using options from .clang-tidy
+LLVM (http://llvm.org/):
+  LLVM version 6.0.0
+  
+  Optimized build.
+  Default target: x86_64-pc-linux-gnu
+  Host CPU: skylake-avx512
+6514 warnings generated.
+13434 warnings generated.
+21185 warnings generated.
+/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/maze.cpp:16:14: warning: do not use array subscript when the index is not an integer constant expression; use gsl::at() instead [cppcoreguidelines-pro-bounds-constant-array-index]
+      Out << Maze.Field[Row][Col];
+             ^
+/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/maze.cpp:44:18: warning: do not use array subscript when the index is not an integer constant expression; use gsl::at() instead [cppcoreguidelines-pro-bounds-constant-array-index]
+      InFile.get(Field[Row][Col]);
+                 ^
+/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/maze.cpp:54:10: warning: do not use array subscript when the index is not an integer constant expression; use gsl::at() instead [cppcoreguidelines-pro-bounds-constant-array-index]
+  return Field[Row][Col] == ' ';
+         ^
+/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/maze.cpp:59:3: warning: do not use array subscript when the index is not an integer constant expression; use gsl::at() instead [cppcoreguidelines-pro-bounds-constant-array-index]
+  Field[Row][Col] = '*';
+  ^
+/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/maze.cpp:64:3: warning: do not use array subscript when the index is not an integer constant expression; use gsl::at() instead [cppcoreguidelines-pro-bounds-constant-array-index]
+  Field[Row][Col] = '+';
+  ^
+Suppressed 21175 warnings (21175 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+*** running myprogram
+Path: EEENNNEEEEEESEESSSEEENNNNN
+xxxxxxxxxxxxxxxxxx x
+x     x*******xxxx*x
+x xxxxx*xxxxx***xx*x
+x xxxxx*xxxxxxx*xx*x
+x x+****     xx*xx*x
+x xxxxxxxxxx xx****x
+xxxxxxxxxxxxxxxxxxxx
+
+
+Done!
+*** cleaning up, deleting myprogram
+Mon May  3 16:58:26 PDT 2021
