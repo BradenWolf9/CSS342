@@ -1,3 +1,0 @@
-/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/CMakeFiles/rebuild_cache.dir
-/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/CMakeFiles/ass3.dir
-/home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/CMakeFiles/edit_cache.dir
