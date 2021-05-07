@@ -4,11 +4,9 @@
  * @brief implementation file for creature class
  */
 
-
-
 #include "creature.h"
-#include <stdlib.h>
 #include <iostream>
+#include <stdlib.h>
 
 
 
@@ -64,7 +62,7 @@ bool Creature::moveForward(std::string &Path, Maze &Maze) {
 
 // backtrack, check last letter on Path then go opposite way
 void Creature::backtrack(std::string &Path) {
-    // if north go south
+  // if north go south
   if (Path[Path.length() - 1] == 'N') {
     this->goSouth();
   }
@@ -94,24 +92,16 @@ bool Creature::atExit(const Maze &Maze) const {
 
 
 // moves creature north
-void Creature::goNorth() {
-    this->Row--;
-}
+void Creature::goNorth() { this->Row--; }
 
 // moves creature west
-void Creature::goWest() {
-    this->Col--;
-}
+void Creature::goWest() { this->Col--; }
 
 // moves creature south
-void Creature::goSouth() {
-    this->Row++;
-}
+void Creature::goSouth() { this->Row++; }
 
 // moves creature east
-void Creature::goEast() {
-  this->Col++;
-}
+void Creature::goEast() { this->Col++; }
 
 
 
@@ -130,7 +120,7 @@ string Creature::solve(Maze *Maze) {
   Maze->markAsPath(this->Row, this->Col);
 
   // Move creature until it reaches the exit
-  while(!this->atExit(*Maze)) {
+  while (!this->atExit(*Maze)) {
     // try moving to new location
     movedForward = moveForward(Path, *Maze);
     // if can't move to new location then backtrack

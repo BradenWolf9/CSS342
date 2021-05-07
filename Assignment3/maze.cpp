@@ -1,10 +1,8 @@
 /**
- * @file creature.h
+ * @file maze.cpp
  * @Author Braden Wolf
  * @brief implementation file for maze class
  */
-
-
 
 #include "maze.h"
 #include <fstream>
@@ -19,19 +17,18 @@ using namespace std;
 ostream &operator<<(ostream &Out, const Maze &Maze) {
   for (int Row = 0; Row < Maze.Height; ++Row) {
     for (int Col = 0; Col < Maze.Width; ++Col) {
-        Out << Maze.Field[Row][Col];
+      Out << Maze.Field[Row][Col];
     }
     Out << endl;
   }
-  Out << endl;
   return Out;
 }
 
 
 
 // constructor
-Maze::Maze(const string &FileName) : Field{}, Width{0}, Height{0}, ExitRow{0},
-                                     ExitColumn{0}  {
+Maze::Maze(const string &FileName)
+    : Field{}, Width{0}, Height{0}, ExitRow{0}, ExitColumn{0} {
   ifstream InFile;
   InFile.open(FileName);
   if (!InFile) {
@@ -53,28 +50,20 @@ Maze::Maze(const string &FileName) : Field{}, Width{0}, Height{0}, ExitRow{0},
 
 
 // checks if given location has any markers
-bool Maze::isClear(int Row, int Col) const {
-  return Field[Row][Col] == ' ';
-}
+bool Maze::isClear(const int &Row, const int &Col) const { return Field[Row][Col] == ' '; }
+
+
 
 // marks given location with a '*'
-void Maze::markAsPath(int Row, int Col) {
-  Field[Row][Col] = '*';
-}
+void Maze::markAsPath(const int &Row, const int &Col) { Field[Row][Col] = '*'; }
 
 // marks given location with a '+'
-void Maze::markAsVisited(int Row, int Col) {
-  Field[Row][Col] = '+';
-}
+void Maze::markAsVisited(const int &Row, const int &Col) { Field[Row][Col] = '+'; }
 
 
 
 // returns exit row
-int Maze::getExitRow() const {
-  return ExitRow;
-}
+int Maze::getExitRow() const { return ExitRow; }
 
 // returns exit column
-int Maze::getExitColumn() const {
-  return ExitColumn;
-}
+int Maze::getExitColumn() const { return ExitColumn; }

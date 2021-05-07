@@ -4,15 +4,11 @@
  * @brief header file for creature class
  */
 
-
-
 #ifndef ASS3_CREATURE_H
 #define ASS3_CREATURE_H
 
 #include "maze.h"
 #include <ostream>
-
-
 
 /**
  * creature object is what is moved throughout the maze
@@ -22,7 +18,6 @@
  */
 class Creature {
 public:
-
   /**
    * prints current location of creature into Out
    *
@@ -159,7 +154,6 @@ public:
    *         (where N means North, E means East, etc)
    */
   string solve(Maze *Maze);
-
 };
 
-#endif //ASS3_CREATURE_H
+#endif // ASS3_CREATURE_H

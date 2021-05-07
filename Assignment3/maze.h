@@ -1,10 +1,8 @@
 /**
- * @file creature.h
+ * @file maze.h
  * @Author Braden Wolf
  * @brief header file for maze class
  */
-
-
 
 #ifndef ASS3_MAZE_H
 #define ASS3_MAZE_H
@@ -14,8 +12,6 @@
 using namespace std;
 
 enum CELL { CLEAR, WALL, PATH, VISITED };
-
-
 
 /**
  * Maze object is what the creature moves through
@@ -72,7 +68,7 @@ public:
    * @param Col to be checked if clear
    * @return True if ' ' False otherwise
    */
-  bool isClear(int Row, int Col) const;
+  bool isClear(const int &Row, const int &Col) const;
 
   /**
    * marks given location with a '*'
@@ -85,7 +81,7 @@ public:
    * @param Col to be used to mark '*'
    * @return void
    */
-  void markAsPath(int Row, int Col);
+  void markAsPath(const int &Row, const int &Col);
 
   /**
    * marks given location with a '+'
@@ -99,7 +95,7 @@ public:
    * @param Col to be used to mark '+'
    * @return void
    */
-  void markAsVisited(int Row, int Col);
+  void markAsVisited(const int &Row, const int &Col);
 
   /**
    * returns exit row
@@ -118,7 +114,6 @@ public:
    * @return the exit column
    */
   int getExitColumn() const;
-
 };
 
-#endif //ASS3_MAZE_H
+#endif // ASS3_MAZE_H

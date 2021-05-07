@@ -1,5 +1,8 @@
 # Maze
 
+A couple lines are not covered in code coverage because it is for not being
+able to open a file.
+
 Goals: Understand recursion and solve a maze
 
 Given a text file representing a maze, as below, find the path for
@@ -49,7 +52,7 @@ xxxxxxxxxxxxxxxxxxxx
 - `output.txt`: Output from `./simple.compile.sh > output.txt 2>&1`
 showing how the program is compiled and run.
 
-- `simplecompile.sh`: Unix bash script file to compile, run 
+- `simplecompile.sh`: Unix bash script file to compile, run
 and then delete the executable. Can be used to create an output.txt file
 
 
@@ -80,5 +83,3 @@ This option is not available in CSS Linux lab under LLVM 3.8.1, but is needed on
 - cppcoreguidelines-special-member-functions: not defining move operator
 - hicpp-special-member-functions: not defining move operator
 - cppcoreguidelines-owning-memory: not using gsl
-
-
