@@ -12,7 +12,7 @@
 
 
 
-// prints current location of creature
+// prints current location of creature into Out
 std::ostream &operator<<(std::ostream &Out, const Creature &Creature) {
   Out << "(" << Creature.Row << "," << Creature.Col << ")";
   return Out;

@@ -24,7 +24,7 @@ class Creature {
 public:
 
   /**
-   * prints current location of creature
+   * prints current location of creature into Out
    *
    * @pre Creature object must be initialized with a row and a column
    * @post doesn't change any variables
@@ -58,22 +58,78 @@ private:
    */
   bool moveForward(std::string &Path, Maze &Maze);
 
-  // backtrack, check last letter on Path then go opposite way
+  /**
+   * backtrack, check last letter on Path then go opposite way
+   *
+   * Uses branches to check last character of Path. Branch order is N (north),
+   * W (west), S(south), and else (east). Creature is moved in opposite
+   * direction of Path's last character. The last character of Path is removed.
+   *
+   * @pre Creature must have already moved forward in some direction
+   * @post The starting location of the creature will have a '+' written on.
+   *       The creature will have moved in the opposite direction of the last
+   *       character in Path. Path will have the last character removed.
+   * @param Path is used as a stack. Used to know which way to backtrack and
+   *        has last character removed.
+   * @return void
+   */
   void backtrack(std::string &Path);
 
-  // checks if creature is at the exit
+  /**
+   * checks if creature is at the exit
+   *
+   * If creature's Row and Col matches Maze's ExitRow and ExitColumn then true
+   * is returned, else false is returned.
+   *
+   * @pre creature and maze must be created
+   * @post const
+   * @param Maze used to get ExitRow and ExitColumn.
+   * @return True if creature location matches exit location, else return false
+   */
   bool atExit(const Maze &Maze) const;
 
-  // moves creature north
+  /**
+   * moves creature north
+   *
+   * Creature's Row is subtracted by 1.
+   *
+   * @pre creature and maze must be created
+   * @post Creature's Row is subtracted by 1.
+   * @return void
+   */
   void goNorth();
 
-  // moves creature west
+  /**
+   * moves creature west
+   *
+   * Creature's Col is subtracted by 1.
+   *
+   * @pre creature and maze must be created
+   * @post Creature's Col is subtracted by 1.
+   * @return void
+   */
   void goWest();
 
-  // moves creature south
+  /**
+   * moves creature south
+   *
+   * Creature's Row is added by 1.
+   *
+   * @pre creature and maze must be created
+   * @post Creature's Row is added by 1.
+   * @return void
+   */
   void goSouth();
 
-  // moves creature east
+  /**
+   * moves creature east
+   *
+   * Creature's Col is added by 1.
+   *
+   * @pre creature and maze must be created
+   * @post Creature's Col is added by 1.
+   * @return void
+   */
   void goEast();
 
 public:
@@ -94,8 +150,10 @@ public:
    * moveForward method, Maze's markAsVisited method, and Creature's
    * backtrack method to have the creature solve the maze.
    *
-   * @pre
-   * @post
+   * @pre Maze and Creature must have been created with Creature starting in
+   *      a location that is not a wall ('x') and has a route to the exit
+   * @post Maze will be marked up with '+'s and '*' indicating visited and
+   *       path locations, repectively.
    * @param Maze
    * @return a string in the form of NNEEN of the path out of the maze
    *         (where N means North, E means East, etc)
