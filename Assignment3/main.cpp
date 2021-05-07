@@ -1,6 +1,10 @@
-// Author: Braden Wolf
-// Description: main driver for maze and creature problem
-// Date: 5/3/21
+/**
+ * @file creature.h
+ * @Author Braden Wolf
+ * @brief main driver and tests for maze and creature problem
+ */
+
+
 
 #include <iostream>
 
@@ -9,10 +13,10 @@
 
 
 void test() {
-    Maze M("maze.txt");
+    Maze M("maze3.txt");
     Maze *PtrMaze = &M;
     Creature C(4, 4);
-    cout << C << endl;
+    cout << "Creature starting location: " << C << endl;
     cout << "Path: " << C.solve(PtrMaze) << endl;
     cout << M << endl;
 }

@@ -1,6 +1,10 @@
-// Author: Braden Wolf
-// Description: header file for maze class
-// Date: 5/3/21
+/**
+ * @file creature.h
+ * @Author Braden Wolf
+ * @brief header file for maze class
+ */
+
+
 
 #ifndef ASS3_MAZE_H
 #define ASS3_MAZE_H
@@ -34,6 +38,7 @@ public:
   int getExitRow() const;
   // returns exit column
   int getExitColumn() const;
+
 };
 
 #endif //ASS3_MAZE_H

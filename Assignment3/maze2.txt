@@ -1,0 +1,12 @@
+80 10
+1 0
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                         xxxxxxxxxxxxxxxxxx
+x                         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                  x
+x    xxxxxxxx    xxxxxxxxxxxxxxxxxxxxxxxxxx        xxxxxxxxxxxxxxxxxxxxxxxx  xxx
+xxxxxxxxxx                  xxxxxxxx          xxxxxxxxxxx  xxxxxxxxxxxxxxx  xxxx
+xx     x   xx  xxxx xxxxxxxxxx        xxxxxxx         xxxx                     x
+xx  xxxx   xx   xxxxxxxxxxxxxxxxxxxxxxx       xxxxx x  xxxxxxxxxxxxxxxxxxxxxxx x
+x          xxxx                         xxxxx       xx                         x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

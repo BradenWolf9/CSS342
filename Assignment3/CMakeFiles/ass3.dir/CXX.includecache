@@ -9,6 +9,8 @@
 /home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/creature.cpp
 creature.h
 /home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/creature.h
+stdlib.h
+-
 
 /home/bradenwolf/Documents/SchoolGitRepos/CSS342/Assignment3/creature.h
 maze.h
