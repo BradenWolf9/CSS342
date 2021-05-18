@@ -27,10 +27,15 @@ int main() {
    if (ptr == nullptr) return 1;
    ptr->setData();
    mylist.insert(ptr);
+   delete ptr;
 
    // insert another node where data is pre-determined
    ptr = new NodeData(1000,'z');
    mylist.insert(ptr);
+   delete ptr;
+
+   // null out ptr
+   ptr = nullptr;
 
    // print, sorted by number
    cout << endl << mylist << endl;

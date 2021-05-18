@@ -38,6 +38,8 @@ bool List<T>::insert(T* data) {
    if (isEmpty() || ptr->getItem() < head->getItem()) {
       ptr->setNext(head);
       head = ptr;
+      delete ptr;
+      ptr = nullptr;
    }
 
    // then check the rest of the list until we find where it belongs
@@ -54,6 +56,8 @@ bool List<T>::insert(T* data) {
       // insert new node, link it in
       ptr->setNext(current);
       previous->setNext(ptr);
+      delete ptr;
+      ptr = nullptr;
    }
    return true;
 }
@@ -79,6 +83,8 @@ void List<T>::buildList(ifstream& infile) {
       // insert good data into the list, otherwise ignore it
       if (successfulRead) {
          success = insert(ptr);
+         delete ptr;
+         ptr = nullptr;
       }
       else {
          delete ptr;

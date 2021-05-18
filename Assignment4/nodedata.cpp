@@ -1,6 +1,6 @@
 /**
  * @file nodedata.cpp
- * @brief
+ * @brief Simple object containing one integer and one character
  * @author Braden Wolf
  */
 
