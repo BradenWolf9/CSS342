@@ -22,6 +22,7 @@ public:
    void setNext(Node<ItemType>* nextNodePtr);
    ItemType* getItem() const ;
    Node<ItemType>* getNext() const ;
+   ~Node();
 }; // end Node
 
 #include "node.cpp"

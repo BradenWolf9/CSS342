@@ -28,6 +28,8 @@ public:
    bool operator<=(const NodeData&) const;
    bool operator>=(const NodeData&) const;
 
+   ~NodeData();                             // destructor
+
 private:
    int num;
    char ch;

@@ -44,9 +44,10 @@ public:
    List();                               // default constructor
    // ~List();                           // destructor
    // List(const List&);                 // copy constructor
-   bool insert(T*);                       // insert one Node into list
+   bool insert(T*);                      // insert one Node into list
    bool isEmpty() const;                 // is list empty?
    void buildList(ifstream&);            // build a list from datafile
+   ~List();                              // destructor
 
    // needs many more member functions to become a complete ADT
 

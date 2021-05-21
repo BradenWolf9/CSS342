@@ -45,3 +45,10 @@ Node<ItemType>* Node<ItemType>::getNext() const
 {
    return next;
 } // end getNext
+
+template<class ItemType>
+Node<ItemType>::~Node()
+{
+  delete this->itemPtr;
+  this->next = nullptr;
+} // end destructor

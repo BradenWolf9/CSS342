@@ -78,3 +78,10 @@ ostream& operator<<(ostream& output, const NodeData& obj) {
    output << obj.num << ' ' << obj.ch << endl;
    return output;
 }
+
+//----------------------------------------------------------------------------
+// destructor
+// delete 
+NodeData::~NodeData() {
+
+}
