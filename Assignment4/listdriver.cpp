@@ -32,8 +32,11 @@ int main() {
    ptr = new NodeData(1000,'z');
    mylist.insert(ptr);
 
+   // sort by number
+
    // print, sorted by number
    cout << endl << mylist << endl;
+
 
    return 0;
 }
