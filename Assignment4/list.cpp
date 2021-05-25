@@ -54,9 +54,67 @@ void List<T>::buildList(ifstream& infile) {
 
 
 
-// sort by nodes in the list
+// bubble sorts nodes in the list from lowest to highest
+// returns true if ends sorted
 template <typename T>
-bool List<T>::sort() {return true;}
+bool List<T>::sort() {
+
+  if (this->isEmpty()) {return false;}
+
+  Node<T> *current = head->getNext();     // to walk list
+  Node<T> *previous = head;               // to walk list, lags behind
+
+  // only one node in list, dont need to sort, return true
+  if (current == nullptr) {return true;}
+
+  else {
+    bool swap = true;
+    // continue until no nodes swap, which means list is sorted
+    while (swap) {
+
+      // test
+      std::cout << "another sort." << std::endl;
+
+      // will be changed back to true if any nodes are swapped
+      swap = false;
+
+      // check if first node is bigger than second, and adjust if needed
+      if (*previous->getItem() > *current->getItem()) {
+
+        // test
+        std::cout << "swapped first." << std::endl;
+
+        previous->setNext(current->getNext());
+        current->setNext(previous);
+        this->head = current;
+        current = this->head->getNext();
+        previous = head;
+        swap = true;
+      }
+      // check rest of list until end
+      while (current->getNext() != nullptr) {
+        if (*current->getItem() > *current->getNext()->getItem()) {
+
+          // test
+          std::cout << "swaped, but not first." << std::endl;
+
+          previous->setNext(current->getNext());
+          current->setNext(current->getNext()->getNext());
+          previous->getNext()->setNext(current);
+          previous = previous->getNext();
+          swap = true;
+        }
+        else {
+          current = current->getNext();
+          previous = previous->getNext();
+        }
+      }
+      current = this->head->getNext();
+      previous = this->head;
+    }
+  }
+  return true;
+}
 
 
 
@@ -74,7 +132,7 @@ bool List<T>::insert(T* data) {
 
    // if the list is empty or if the node should be inserted before
    // the first node of the list
-   if (isEmpty() || ptr->getItem() < head->getItem()) {
+   if (isEmpty() || *ptr->getItem() < *head->getItem()) {
       ptr->setNext(head);
       head = ptr;
    }
@@ -85,7 +143,7 @@ bool List<T>::insert(T* data) {
       Node<T> *previous = head;               // to walk list, lags behind
 
       // walk until end of the list or found position to insert
-      while (current != nullptr && current->getItem() < ptr->getItem()) {
+      while (current != nullptr && *current->getItem() < *ptr->getItem()) {
             previous = current;                  // walk to next node
             current = current->getNext();
       }

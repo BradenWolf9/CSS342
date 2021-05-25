@@ -40,4 +40,6 @@ private:
    int salary;                           // employee's salary
 };
 
+#include "employee.cpp"
+
 #endif

@@ -4,6 +4,7 @@
  * @author Braden Wolf
  */
 #include "nodedata.h"             // as a template, must add nodedata include
+#include "employee.h"
 #include "list.h"
 
 // to compile under unix/linux:  g++ nodedata.cpp listdriver.cpp
@@ -32,9 +33,10 @@ int main() {
    ptr = new NodeData(1000,'z');
    mylist.insert(ptr);
 
-   // sort by number
+   // sort
+   mylist.sort();
 
-   // print, sorted by number
+   // print, sorted list
    cout << endl << mylist << endl;
 
 
