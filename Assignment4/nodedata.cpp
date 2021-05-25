@@ -81,7 +81,7 @@ ostream& operator<<(ostream& output, const NodeData& obj) {
 
 //----------------------------------------------------------------------------
 // destructor
-// delete 
+// delete
 NodeData::~NodeData() {
 
 }

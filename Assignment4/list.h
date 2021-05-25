@@ -42,6 +42,7 @@ class List {
 
 public:
    List();                               // default constructor
+   List(const List&) = default;          // copy constructor
    void buildList(ifstream&);            // build a list from datafile
    bool sort();                          // sorts nodes in the list
    bool insert(T*);                      // insert one Node into list
