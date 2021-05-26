@@ -18,6 +18,16 @@ List<T>::List() {
 
 
 /**
+ * copy constructor
+ */
+template <typename T>
+List<T>::List(const List<T>& copyThis) {
+  *this = copyThis;
+}
+
+
+
+/**
  * buildList
  * continually insert new items into the list
  */
@@ -164,11 +174,13 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
     Node<T> *current = head->getNext();     // to walk list
     Node<T> *previous = head;               // to walk list, lags behind
 
-    // check first node
+    // if first node is target, remove
     if (*previous->getItem == target) {
-      targetPtr = previous;
+      targetPtr = previous->getItem();
       this->head = previous->getNext();
       previous->setNext(nullptr);
+      previous->setItem(nullptr);
+      delete previous;
       return true;
     }
 
@@ -177,11 +189,13 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
       // traverse list
       while (current != nullptr) {
 
-        // if target found
+        // if target found, remove
         if (*current->getItem == target) {
-          targetPtr = current;
+          targetPtr = current->getItem();
           previous->setNext(current->getNext());
           current->setNext(nullptr);
+          current->setItem(nullptr);
+          delete previous;
           return true;
         }
 
@@ -245,7 +259,54 @@ bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
 // merged list.)  (O(n) time, so insert must not be used or time would be
 // O(n2))
 template <typename T>
-void List<T>::merge(List<T> one, List<T> two) {}
+void List<T>::merge(List<T> one, List<T> two) {
+  // if both one and two are empty, cannot merge
+  if (one.isEmpty() && two.isEmpty()) {
+    this->head = nullptr;
+    return;
+  }
+
+  Node<T> *thisPrevious = this->head;
+  Node<T> *thisCurrent = this->head;
+  Node<T> *oneCurrent = one.head;
+  Node<T> *twoCurrent = two.head;
+
+  // set first node of new list
+  // both one and two cannot be empty because of check at beginning of function
+  // if two is empty or one is current node is lower
+  if (twoCurrent == nullptr || *oneCurrent.getItem() < *twoCurrent.getItem()) {
+    thisPrevious = oneCurrent;
+    this->head = thisPrevious;
+    oneCurrent = oneCurrent->getNext();
+  // if two current node is lower
+  } else {
+    thisPrevious = twoCurrent;
+    this->head = thisPrevious;
+    twoCurrent = twoCurrent->getNext();
+  }
+
+  // set rest of list, walking through one and two
+  while (oneCurrent != nullptr && twoCurrent != nullptr) {
+    // both one and two cannot be empty because of check in while statement
+    // if two is empty or one current node is lower
+    if (twoCurrent == nullptr ||
+        *oneCurrent.getItem() < *twoCurrent.getItem()) {
+      thisCurrent = oneCurrent;
+      oneCurrent = oneCurrent->getNext();
+      thisPrevious->setNext(thisCurrent);
+      thisPrevious = thisCurrent;
+    } else {
+      thisCurrent = twoCurrent;
+      twoCurrent = twoCurrent->getNext();
+      thisPrevious->setNext(thisCurrent);
+      thisPrevious = thisCurrent;
+    }
+  } // end while, thisCurrent, oneCurrent, and twoCurrent should end on nullptr
+  //make sure last node next points to nullptr
+  thisPrevious->setNext(thisCurrent);
+  thisPrevious = nullptr;
+  return;
+}
 
 
 
@@ -253,7 +314,22 @@ void List<T>::merge(List<T> one, List<T> two) {}
 // memory is allocated; at termination of the function, the two parameter
 // lists are unchanged unless one is also the current object.)
 template <typename T>
-void List<T>::intersect(const List<T> &one, const List<T> &two) {}
+void List<T>::intersect(const List<T> &one, const List<T> &two) {
+  Node<T> *thisPrevious = this->head;
+  Node<T> *thisCurrent = this->head;
+  Node<T> *oneCurrent = one.head;
+  Node<T> *twoCurrent = two.head;
+
+  // walk through both lists
+  while (oneCurrent != nullptr && twoCurrent != nullptr) {
+    if (*oneCurrent == *twoCurrent) {
+      this->insert(*oneCurrent->getItem());
+    }
+    oneCurrent = oneCurrent->getNext();
+    twoCurrent = twoCurrent->getNext();
+  }
+  return;
+}
 
 
 
