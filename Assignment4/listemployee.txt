@@ -1,4 +1,4 @@
 billy bob 5434 7
 smith joe 2387 82
-johansen sally 36729 45000
-alexander dave 8201 64000\n
+johansen sally 3672 45000
+alexander dave 8201 64000

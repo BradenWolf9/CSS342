@@ -164,8 +164,10 @@ bool List<T>::insert(T* data) {
 // Remove from list
 template <typename T>
 bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
+  // will be changed to point to removed node if found
   targetPtr = nullptr;
 
+  // if empty, cannot remove
   if (this->isEmpty()) {
     return false;
   }
@@ -175,8 +177,8 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
     Node<T> *previous = head;               // to walk list, lags behind
 
     // if first node is target, remove
-    if (*previous->getItem == target) {
-      targetPtr = previous->getItem();
+    if (*previous->getItem() == *target.getItem()) {
+      targetPtr = previous;
       this->head = previous->getNext();
       previous->setNext(nullptr);
       previous->setItem(nullptr);
@@ -190,12 +192,13 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
       while (current != nullptr) {
 
         // if target found, remove
-        if (*current->getItem == target) {
-          targetPtr = current->getItem();
+        if (*current->getItem() == *target.getItem()) {
+
+          targetPtr = current;
           previous->setNext(current->getNext());
           current->setNext(nullptr);
           current->setItem(nullptr);
-          delete previous;
+          delete current;
           return true;
         }
 
@@ -215,8 +218,10 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
 // null if the return value is false
 template <typename T>
 bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
+  // will be changed to point to retrieved node if found
   targetPtr = nullptr;
 
+  // if empty, cannot retrieve
   if (this->isEmpty()) {
     return false;
   }
@@ -226,7 +231,7 @@ bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
     Node<T> *previous = head;               // to walk list, lags behind
 
     // check first node
-    if (*previous->getItem == target) {
+    if (*previous->getItem() == *target.getItem()) {
       targetPtr = previous;
       return true;
     }
@@ -237,7 +242,7 @@ bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
       while (current != nullptr) {
 
         // if target found
-        if (*current->getItem == target) {
+        if (*current->getItem() == *target.getItem()) {
           targetPtr = current;
           return true;
         }
@@ -274,7 +279,7 @@ void List<T>::merge(List<T> one, List<T> two) {
   // set first node of new list
   // both one and two cannot be empty because of check at beginning of function
   // if two is empty or one is current node is lower
-  if (twoCurrent == nullptr || *oneCurrent.getItem() < *twoCurrent.getItem()) {
+  if (twoCurrent == nullptr || *oneCurrent->getItem() < *twoCurrent->getItem()) {
     thisPrevious = oneCurrent;
     this->head = thisPrevious;
     oneCurrent = oneCurrent->getNext();
@@ -290,7 +295,7 @@ void List<T>::merge(List<T> one, List<T> two) {
     // both one and two cannot be empty because of check in while statement
     // if two is empty or one current node is lower
     if (twoCurrent == nullptr ||
-        *oneCurrent.getItem() < *twoCurrent.getItem()) {
+        *oneCurrent->getItem() < *twoCurrent->getItem()) {
       thisCurrent = oneCurrent;
       oneCurrent = oneCurrent->getNext();
       thisPrevious->setNext(thisCurrent);
@@ -315,15 +320,13 @@ void List<T>::merge(List<T> one, List<T> two) {
 // lists are unchanged unless one is also the current object.)
 template <typename T>
 void List<T>::intersect(const List<T> &one, const List<T> &two) {
-  Node<T> *thisPrevious = this->head;
-  Node<T> *thisCurrent = this->head;
   Node<T> *oneCurrent = one.head;
   Node<T> *twoCurrent = two.head;
 
   // walk through both lists
   while (oneCurrent != nullptr && twoCurrent != nullptr) {
-    if (*oneCurrent == *twoCurrent) {
-      this->insert(*oneCurrent->getItem());
+    if (*oneCurrent->getItem() == *twoCurrent->getItem()) {
+      this->insert(oneCurrent->getItem());
     }
     oneCurrent = oneCurrent->getNext();
     twoCurrent = twoCurrent->getNext();
@@ -379,38 +382,56 @@ void List<T>::operator=(const List<T>& copyThis) {
   thisPrevious = new Node<T>();
   thisPrevious->setItem(copyCurrent->getItem());
   this->head = thisPrevious;
+  copyCurrent = copyCurrent->getNext();
 
-  // travers copyThis list
-  while (copyCurrent != nullptr) {
-    copyCurrent = copyCurrent->getNext();
+
+  // traverse copyThis list
+  while (copyCurrent->getNext() != nullptr) {
     thisCurrent = new Node<T>();
     thisCurrent->setItem(copyCurrent->getItem());
     thisPrevious->setNext(thisCurrent);
 
     // continue to next node
-    thisCurrent = thisCurrent->getNext();
+    copyCurrent = copyCurrent->getNext();
     thisPrevious = thisPrevious->getNext();
+
+    std::cerr << copyCurrent->getItem() << std::endl;
+    //std::cerr << copyCurrent->getNext() << std::endl;
   }
+  thisCurrent = new Node<T>();
+  thisCurrent->setItem(copyCurrent->getItem());
+  thisPrevious->setNext(thisCurrent);
+  thisCurrent->setNext(nullptr);
+  std::cerr << "made it out of while" << std::endl;
+
+  return;
 }
 
 
 
 template <typename T>
 bool List<T>::operator==(const List<T>& right) const {
+  // if both empty, return true
+  if (this->head == nullptr && right.head == nullptr) {
+    return true;
+  }
+
   Node<T> *thisCurrent = this->head;
   Node<T> *rightCurrent = right.head;
+
   // traverse through list
-  while (thisCurrent != nullptr) {
+  while (thisCurrent != nullptr && rightCurrent != nullptr) {
     // if nodes in same order are not equal, then lists are not equal
-    if (thisCurrent->getItem() != rightCurrent.getItem()) {
+    if (*thisCurrent->getItem() != *rightCurrent->getItem()) {
       return false;
     }
     // move on to next nodes in both lists
     thisCurrent = thisCurrent->getNext();
     rightCurrent = rightCurrent->getNext();
   }
+
   // make sure both ended on nullptr, signifying end of list
-  if (thisCurrent->getItem() != rightCurrent.getItem()) {
+  if (thisCurrent->getItem() != rightCurrent->getItem()) {
     return false;
   }
 
