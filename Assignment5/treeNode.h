@@ -1,21 +1,22 @@
 #ifndef TREENODE
 #define	TREENODE
 
-template <class ItemType> 
+template <class ItemType>
 class TreeNode
 {
-  private: 
+  private:
   ItemType item;
-  TreeNode<ItemType> leftChildPtr;
-  TreeNode<ItemType> rightChildPtr;
-  bool rightIsThread
-  bool leftIsThread  
+  TreeNode<ItemType> *leftChildPtr;
+  TreeNode<ItemType> *rightChildPtr;
+  bool rightIsThread;
+  bool leftIsThread;
 
   public:
   TreeNode();
   ~TreeNode();
   TreeNode(const ItemType& anItem);
-  TreeNode(const ItemType& anItem, TreeNode<ItemType> leftPtr, TreeNode<ItemType> rightPtr);
+  TreeNode(const ItemType& anItem, TreeNode<ItemType> leftPtr,
+           TreeNode<ItemType> rightPtr);
 
   void setItem(const ItemType& anItem);
   ItemType getItem() const;
@@ -28,11 +29,19 @@ class TreeNode
   void setLeftChildPtr(TreeNode<ItemType>* leftPtr);
   void setRightChildPtr(TreeNode<ItemType>* rightPtr);
 
-  TreeNode& operator=(const TreeNode &right);
+  void setRightIsThread(bool thread);
+  void setLeftIsThread(bool thread);
+
+  bool getRightIsThread();
+  bool getLeftIsThread();
+
+  void operator=(const TreeNode<ItemType> &right);
   bool operator==(const TreeNode& right) const;
   bool operator<(const TreeNode& right) const;
   bool operator>(const TreeNode& right) const;
 
-}
+};
+
+#include "treeNode.cpp"
 
 #endif
