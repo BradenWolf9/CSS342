@@ -32,8 +32,10 @@ bool remove(ItemType& toBeRemoved);
 
 void makeEmpty();
 
+// do pre order
 ThreadedBST& operator=(const ThreadedBST& right);
 
+// create thread the tree function
 
 }
 
