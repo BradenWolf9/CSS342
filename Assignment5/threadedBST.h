@@ -30,6 +30,7 @@ void setRootItem(const ItemType& newItem);
 bool insert(ItemType);
 bool remove(ItemType& toBeRemoved);
 
+// use post order
 void makeEmpty();
 
 // do pre order
