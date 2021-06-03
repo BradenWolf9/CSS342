@@ -38,6 +38,8 @@ ThreadedBST& operator=(const ThreadedBST& right);
 
 // create thread the tree function
 
-}
+// create iterate function that uses in order
+  
+};
 
 #endif
