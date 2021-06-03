@@ -26,8 +26,9 @@ int getNumberOfNodes() const;
 ItemType getRootItem() const;
 void setRootItem(const ItemType& newItem);
 
-
+// call thread function at end
 bool insert(ItemType);
+// call thread function at end
 bool remove(ItemType& toBeRemoved);
 
 // use post order
@@ -39,7 +40,7 @@ ThreadedBST& operator=(const ThreadedBST& right);
 // create thread the tree function
 
 // create iterate function that uses in order
-  
+
 };
 
 #endif
