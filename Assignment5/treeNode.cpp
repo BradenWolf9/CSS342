@@ -43,7 +43,7 @@ template <typename ItemType> ItemType TreeNode<ItemType>::getItem() const {
 }
 
 template <typename ItemType> bool TreeNode<ItemType>::isLeaf() const {
-  if (this->rightChildPtr == nullptr && this->leftChildPtr == nullptr) {
+  if (this->leftChildPtr == nullptr) {
     return true;
   }
   return false;

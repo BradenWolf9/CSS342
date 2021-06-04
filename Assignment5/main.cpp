@@ -16,6 +16,9 @@ int main() {
   TreeNode<int> node3(5);
   assert(node2 == node3);
   // node1 = node2;
+  TreeNode<int> node5(4);
+  assert(node5 < node3);
+  assert(node3 > node5);
 
   TreeNode<int> node4 = node2;
 }
