@@ -10,18 +10,14 @@
 /**
  * Constructor
  */
-template <typename T>
-List<T>::List() {
-   head = nullptr;
-}
+template <typename T> List<T>::List() { head = nullptr; }
 
 
 
 /**
  * copy constructor
  */
-template <typename T>
-List<T>::List(const List<T>& copyThis) {
+template <typename T> List<T>::List(const List<T> &copyThis) {
   *this = copyThis;
 }
 
@@ -31,51 +27,52 @@ List<T>::List(const List<T>& copyThis) {
  * buildList
  * continually insert new items into the list
  */
-template <typename T>
-void List<T>::buildList(ifstream& infile) {
-   T* ptr;
-   bool successfulRead;                            // read good data
-   bool success;                                   // successfully insert
-   for (;;) {
-      ptr = new T;
-      successfulRead = ptr->setData(infile);       // fill the T object
-      if (infile.eof()) {
-         delete ptr;
-         ptr = nullptr;
-         break;
-      }
+template <typename T> void List<T>::buildList(ifstream &infile) {
+  T *ptr;
+  bool successfulRead; // read good data
+  bool success;        // successfully insert
+  for (;;) {
+    ptr = new T;
+    successfulRead = ptr->setData(infile); // fill the T object
+    if (infile.eof()) {
+      delete ptr;
+      ptr = nullptr;
+      break;
+    }
 
-      // insert good data into the list, otherwise ignore it
-      if (successfulRead) {
-         success = insert(ptr);
-      }
-      else {
-         delete ptr;
-         ptr = nullptr;
-      }
+    // insert good data into the list, otherwise ignore it
+    if (successfulRead) {
+      success = insert(ptr);
+    } else {
+      delete ptr;
+      ptr = nullptr;
+    }
 
-      // if item was not inserted, throw it away
-      if (!success) {
-         delete ptr;
-         ptr = nullptr;
-      }
-   }
+    // if item was not inserted, throw it away
+    if (!success) {
+      delete ptr;
+      ptr = nullptr;
+    }
+  }
 }
 
 
 
 // bubble sorts nodes in the list from lowest to highest
 // returns true if ends sorted
-template <typename T>
-bool List<T>::sort() {
+template <typename T> bool List<T>::sort() {
 
-  if (this->isEmpty()) {return false;}
+  if (this->isEmpty()) {
+    return false;
+  }
 
-  Node<T> *current = head->getNext();     // to walk list
-  Node<T> *previous = head;               // to walk list, lags behind
+  Node<T> *current = head->getNext(); // to walk list
+  Node<T> *previous = head;           // to walk list, lags behind
 
   // only one node in list, dont need to sort, return true
-  if (current == nullptr) {return true;}
+  if (current == nullptr) {
+    return true;
+  }
 
   else {
     bool swap = true;
@@ -103,8 +100,7 @@ bool List<T>::sort() {
           previous->getNext()->setNext(current);
           previous = previous->getNext();
           swap = true;
-        }
-        else {
+        } else {
           current = current->getNext();
           previous = previous->getNext();
         }
@@ -123,36 +119,36 @@ bool List<T>::sort() {
  * insert an item into list; operator< of the T class
  * has the responsibility for the sorting criteria
  */
-template <typename T>
-bool List<T>::insert(T* data) {
+template <typename T> bool List<T>::insert(T *data) {
 
-   Node<T> *ptr = new Node<T>();
-   if (ptr == nullptr) return false; // out of memory, bail
-   ptr->setItem(data);               // link the node to data
+  Node<T> *ptr = new Node<T>();
+  if (ptr == nullptr)
+    return false;     // out of memory, bail
+  ptr->setItem(data); // link the node to data
 
-   // if the list is empty or if the node should be inserted before
-   // the first node of the list
-   if (isEmpty() || *ptr->getItem() < *head->getItem()) {
-      ptr->setNext(head);
-      head = ptr;
-   }
+  // if the list is empty or if the node should be inserted before
+  // the first node of the list
+  if (isEmpty() || *ptr->getItem() < *head->getItem()) {
+    ptr->setNext(head);
+    head = ptr;
+  }
 
-   // then check the rest of the list until we find where it belongs
-   else {
-      Node<T> *current = head->getNext();     // to walk list
-      Node<T> *previous = head;               // to walk list, lags behind
+  // then check the rest of the list until we find where it belongs
+  else {
+    Node<T> *current = head->getNext(); // to walk list
+    Node<T> *previous = head;           // to walk list, lags behind
 
-      // walk until end of the list or found position to insert
-      while (current != nullptr && *current->getItem() < *ptr->getItem()) {
-            previous = current;                  // walk to next node
-            current = current->getNext();
-      }
+    // walk until end of the list or found position to insert
+    while (current != nullptr && *current->getItem() < *ptr->getItem()) {
+      previous = current; // walk to next node
+      current = current->getNext();
+    }
 
-      // insert new node, link it in
-      ptr->setNext(current);
-      previous->setNext(ptr);
-   }
-   return true;
+    // insert new node, link it in
+    ptr->setNext(current);
+    previous->setNext(ptr);
+  }
+  return true;
 }
 
 
@@ -163,7 +159,7 @@ bool List<T>::insert(T* data) {
 // (although it's best to set it to nullptr) if return value is false.
 // Remove from list
 template <typename T>
-bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
+bool List<T>::remove(const Node<T> &target, Node<T> *&targetPtr) {
   // will be changed to point to removed node if found
   targetPtr = nullptr;
 
@@ -173,8 +169,8 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
   }
 
   else {
-    Node<T> *current = head->getNext();     // to walk list
-    Node<T> *previous = head;               // to walk list, lags behind
+    Node<T> *current = head->getNext(); // to walk list
+    Node<T> *previous = head;           // to walk list, lags behind
 
     // if first node is target, remove
     if (*previous->getItem() == *target.getItem()) {
@@ -217,7 +213,7 @@ bool List<T>::remove(const Node<T> &target, Node<T>* &targetPtr) {
 // in the list, the first one encountered is retrieved. Second parameter is
 // null if the return value is false
 template <typename T>
-bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
+bool List<T>::retrieve(const Node<T> &target, Node<T> *&targetPtr) const {
   // will be changed to point to retrieved node if found
   targetPtr = nullptr;
 
@@ -227,8 +223,8 @@ bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
   }
 
   else {
-    Node<T> *current = head->getNext();     // to walk list
-    Node<T> *previous = head;               // to walk list, lags behind
+    Node<T> *current = head->getNext(); // to walk list
+    Node<T> *previous = head;           // to walk list, lags behind
 
     // check first node
     if (*previous->getItem() == *target.getItem()) {
@@ -263,8 +259,7 @@ bool List<T>::retrieve(const Node<T> &target, Node<T>* &targetPtr) const {
 // empty unless one is also the current object. Duplicates are allowed in a
 // merged list.)  (O(n) time, so insert must not be used or time would be
 // O(n2))
-template <typename T>
-void List<T>::merge(List<T> one, List<T> two) {
+template <typename T> void List<T>::merge(List<T> one, List<T> two) {
   // if both one and two are empty, cannot merge
   if (one.isEmpty() && two.isEmpty()) {
     this->head = nullptr;
@@ -279,11 +274,12 @@ void List<T>::merge(List<T> one, List<T> two) {
   // set first node of new list
   // both one and two cannot be empty because of check at beginning of function
   // if two is empty or one is current node is lower
-  if (twoCurrent == nullptr || *oneCurrent->getItem() < *twoCurrent->getItem()) {
+  if (twoCurrent == nullptr ||
+      *oneCurrent->getItem() < *twoCurrent->getItem()) {
     thisPrevious = oneCurrent;
     this->head = thisPrevious;
     oneCurrent = oneCurrent->getNext();
-  // if two current node is lower
+    // if two current node is lower
   } else {
     thisPrevious = twoCurrent;
     this->head = thisPrevious;
@@ -307,7 +303,7 @@ void List<T>::merge(List<T> one, List<T> two) {
       thisPrevious = thisCurrent;
     }
   } // end while, thisCurrent, oneCurrent, and twoCurrent should end on nullptr
-  //make sure last node next points to nullptr
+  // make sure last node next points to nullptr
   thisPrevious->setNext(thisCurrent);
   thisPrevious = nullptr;
   return;
@@ -339,10 +335,7 @@ void List<T>::intersect(const List<T> &one, const List<T> &two) {
 //----------------------------------------------------------------------------
 // isEmpty
 // check to see if List is empty as defined by a NULL head
-template <typename T>
-bool List<T>::isEmpty() const {
-   return head == nullptr;
-}
+template <typename T> bool List<T>::isEmpty() const { return head == nullptr; }
 
 
 
@@ -352,10 +345,9 @@ bool List<T>::isEmpty() const {
  *
  * @return true if list end up clear or false if it ends up not clear
  */
-template <typename T>
-bool List<T>::makeEmpty() {
+template <typename T> bool List<T>::makeEmpty() {
   if (!this->isEmpty()) {
-    Node<T>* next = nullptr;
+    Node<T> *next = nullptr;
     // traverse list and delete nodes
     while (head != nullptr) {
       next = this->head->getNext();
@@ -370,9 +362,11 @@ bool List<T>::makeEmpty() {
 
 // to assign one list to another, deep copy (all new memory)  (Takes O(n)
 // time. No insert() call.)
-template <typename T>
-void List<T>::operator=(const List<T>& copyThis) {
-  this->head = copyThis.head;
+template <typename T> void List<T>::operator=(const List<T> &copyThis) {
+  // if copy list is empty, can't copy
+  if (copyThis.isEmpty()) {
+    return;
+  }
 
   Node<T> *copyCurrent = copyThis.head;
   Node<T> *thisCurrent;
@@ -381,9 +375,15 @@ void List<T>::operator=(const List<T>& copyThis) {
   // set first
   thisPrevious = new Node<T>();
   thisPrevious->setItem(copyCurrent->getItem());
+  thisPrevious->setNext(nullptr);
   this->head = thisPrevious;
-  copyCurrent = copyCurrent->getNext();
+  
+  // if only one node in list
+  if (copyCurrent->getNext() == nullptr) {
+    return;
+  }
 
+  copyCurrent = copyCurrent->getNext();
 
   // traverse copyThis list
   while (copyCurrent->getNext() != nullptr) {
@@ -394,23 +394,20 @@ void List<T>::operator=(const List<T>& copyThis) {
     // continue to next node
     copyCurrent = copyCurrent->getNext();
     thisPrevious = thisPrevious->getNext();
-
-    std::cerr << copyCurrent->getItem() << std::endl;
-    //std::cerr << copyCurrent->getNext() << std::endl;
   }
+
+  // set last
   thisCurrent = new Node<T>();
   thisCurrent->setItem(copyCurrent->getItem());
   thisPrevious->setNext(thisCurrent);
   thisCurrent->setNext(nullptr);
-  std::cerr << "made it out of while" << std::endl;
 
   return;
 }
 
 
 
-template <typename T>
-bool List<T>::operator==(const List<T>& right) const {
+template <typename T> bool List<T>::operator==(const List<T> &right) const {
   // if both empty, return true
   if (this->head == nullptr && right.head == nullptr) {
     return true;
@@ -420,7 +417,7 @@ bool List<T>::operator==(const List<T>& right) const {
   Node<T> *rightCurrent = right.head;
 
   // traverse through list
-  while (thisCurrent != nullptr && rightCurrent != nullptr) {
+  while (thisCurrent->getNext() != nullptr && rightCurrent->getNext() != nullptr) {
     // if nodes in same order are not equal, then lists are not equal
     if (*thisCurrent->getItem() != *rightCurrent->getItem()) {
       return false;
@@ -440,17 +437,11 @@ bool List<T>::operator==(const List<T>& right) const {
 
 
 
-template <typename T>
-bool List<T>::operator!=(const List<T>& right) const {
+template <typename T> bool List<T>::operator!=(const List<T> &right) const {
   return !(*this == right);
 }
-
-
 
 /**
  * destructor
  */
-template <typename T>
-List<T>::~List() {
-  this->makeEmpty();
-}
+template <typename T> List<T>::~List() { this->makeEmpty(); }
