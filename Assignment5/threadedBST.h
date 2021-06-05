@@ -32,7 +32,14 @@ void setRootItem(const ItemType& newItem);
 TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode);
 
 // call thread function at end
-bool insert(ItemType);
+bool insert(ItemType item);
+
+TreeNode<ItemType>* findNode(ItemType& find);
+
+TreeNode<ItemType>* findParent(ItemType& find);
+
+bool removeRoot(TreeNode<ItemType>* remove);
+
 // call thread function at end
 bool remove(ItemType& toBeRemoved);
 

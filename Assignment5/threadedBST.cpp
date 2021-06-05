@@ -56,8 +56,152 @@ ThreadedBST<ItemType>::~ThreadedBST() {
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::isEmpty() const {
-
+  if (rootPtr == nullptr) {
+    return true;
+  }
+  return false;
 }
+
+template<typename ItemType>
+bool ThreadedBST<ItemType>::insert(ItemType item) {
+  if (this->isEmpty()) {
+    this->rootPtr = new TreeNode<ItemType>(item);
+    return true;
+  }
+  TreeNode<ItemType> *insert = new TreeNode<ItemType>(item);
+  TreeNode<ItemType> *currNode = this->rootPtr;
+  while (true) {
+    // check left subtree
+    if (item < currNode->getItem()) {
+      if (currNode->getLeftChildPtr() == nullptr) {
+        currNode->setLeftChildPtr(insert);
+        return true;
+      } else {
+        currNode = currNode->getLeftChildPtr();
+      }
+    }
+    // check right subtree
+    else {
+      if (currNode->getRightChildPtr() == nullptr) {
+        currNode->setRightChildPtr(insert);
+        return true;
+      } else {
+        currNode = currNode->getRightChildPtr();
+      }
+    }
+  }
+  return false;
+}
+
+template<typename ItemType>
+TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType& find) {
+  TreeNode<ItemType> currNode = this->rootPtr;
+  while(find != currNode->getItem() && currNode != nullptr) {
+    if (find < currNode->getItem()) {
+      currNode = currNode->getLeftChildPtr();
+    } else if (find > currNode->getItem()) {
+      currNode = currNode->getRightChildPtr();
+    }
+  }
+  if (currNode == nullptr) {
+    std::cout << "Couldn't find value " << find << std::endl;
+  }
+  return currNode;
+}
+
+template<typename ItemType>
+TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType& find) {
+  TreeNode<ItemType> currNode = this->rootPtr;
+  TreeNode<ItemType> parent = nullptr;
+  while(find != currNode->getItem() && currNode != nullptr) {
+    parent = currNode;
+    if (find < currNode->getItem()) {
+      currNode = currNode->getLeftChildPtr();
+    } else if (find > currNode->getItem()) {
+      currNode = currNode->getRightChildPtr();
+    }
+  }
+  if (currNode == nullptr) {
+    std::cout << "Couldn't find value " << find << std::endl;
+  }
+  return parent;
+}
+
+template<typename ItemType>
+bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
+  TreeNode<ItemType>* remove = findNode(toBeRemoved);
+  TreeNode<ItemType>* parent = findParent(toBeRemoved);
+  // if could not find item to remove
+  if (remove == nullptr) {
+    std::cout << "Value can not be removed " << toBeRemoved << std:endl;
+    return false;
+  }
+  // if wanting to remove root
+  if (parent == nullptr) {
+    
+  }
+  else if (remove->getItem() < parent->getItem()) {
+    parent->setLeftChildPtr(nullptr);
+  } else {
+    parent->setRightChildPtr(nullptr);
+  }
+
+  // if remove has two children
+  if (remove->getLeftChildPtr() !=nullptr &&
+      remove->getRightChildPtr() != nullptr) {
+    TreeNode<ItemType>* current = remove;
+    current = current->getRightChildPtr();
+    current = this->getLeftMost(current);
+    // if current has no children
+    if (current->getRightChildPtr() == nullptr) {
+      current->setLeftChildPtr(remove->getLeftChildPtr());
+      current->setRightChildPtr(remove->getRightChildPtr());
+      delete remove;
+      return true;
+    }
+  }
+
+  // if remove has one child
+  else if (remove->getLeftChildPtr() != nullptr ||
+           remove->getRightChildPtr() != nullptr) {
+    // remove has left child
+    if (remove->getLeftChildPtr() != nullptr) {
+      // if remove is left child of parent
+      if (remove->getItem() < parent->getItem()) {
+        parent->setLeftChildPtr(remove->getLeftChildPtr());
+        delete remove;
+        return true;
+      }
+      // if remove is right child of parent
+      else {
+        parent->setRightChildPtr(remove->getLeftChildPtr());
+        delete remove;
+        return true;
+      }
+    }
+    // remove has right child
+    else {
+      // if remove is left child of parent
+      if (remove->getItem() < parent->getItem()) {
+        parent->setLeftChildPtr(remove->getRightChildPtr());
+        delete remove;
+        return true;
+      }
+      // if remove is right child of parent
+      else {
+        parent->setRightChildPtr(remove->getRightChildPtr());
+        delete remove;
+        return true;
+    }
+    }
+  }
+  // if remove has no children
+  else {
+    delete remove;
+    return true;
+  }
+}
+
 
 template<typename ItemType>
 void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
