@@ -20,7 +20,6 @@ TreeNode<ItemType>::TreeNode(const ItemType& anItem) {
   this->leftChildPtr = nullptr;
   this->rightChildPtr = nullptr;
   this->rightIsThread = false;
-  this->leftIsThread = false;
 }
 
 template <typename ItemType>
@@ -30,7 +29,6 @@ TreeNode<ItemType>::TreeNode(const ItemType& anItem, TreeNode<ItemType> leftPtr,
   this->leftChildPtr = leftPtr;
   this->rightChildPtr = rightPtr;
   this->rightIsThread = false;
-  this->leftIsThread = false;
 }
 
 template <typename ItemType>

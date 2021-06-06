@@ -1,14 +1,16 @@
 #ifndef THREADEDBST_H
 #define	THREADEDBST_H
 
-#include "TreeNode.h"
+#include "treeNode.h"
+#include<queue>
 
 template<class ItemType>
 class ThreadedBST
 {
   //
-  friend ostream &operator<<(ostream &output,
-                             const ThreadedBST<ItemType> &theTree);
+  template<class Item>
+  friend std::ostream &operator<<(std::ostream &output,
+                             const ThreadedBST<Item> &theTree);
 
 private:
 TreeNode<ItemType>* rootPtr;
@@ -19,19 +21,18 @@ ThreadedBST();
 //
 ThreadedBST(const ItemType& rootItem);
 //
-ThreadedBST(const ThreadedBST<ItemType> tree);
+ThreadedBST(const ThreadedBST<ItemType>& tree);
 //
 ~ThreadedBST();
 //
 bool isEmpty() const;
-
+//
 int getHeight(TreeNode<ItemType>* currNode) const;
+//
 int getNumberOfNodes() const;
 
-ItemType getRootItem() const;
-void setRootItem(const ItemType& newItem);
 //
-TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode);
+TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) const;
 
 // call thread function at end
 bool insert(ItemType item);
@@ -46,17 +47,19 @@ bool removeRoot(TreeNode<ItemType>* remove);
 bool remove(ItemType& toBeRemoved);
 //
 void inOrderTraversal(TreeNode<ItemType>* currNode,
-                      queue<TreeNode<ItemType>*>& q);
+                      std::queue<TreeNode<ItemType>*>& q) const;
 //
 void threadTree();
 
 // use post order
-void makeEmpty();
+void makeEmpty(TreeNode<ItemType> *currNode);
 
 // use pre order
 void preOrderCopy(TreeNode<ItemType> *treeNode, TreeNode<ItemType> *prevNode);
-
+//
 ThreadedBST<ItemType>& operator=(const ThreadedBST& right);
 };
+
+#include "threadedBST.cpp"
 
 #endif

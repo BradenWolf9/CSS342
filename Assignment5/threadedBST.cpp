@@ -3,12 +3,11 @@
 #include<queue>
 
 
-
-template<typename ItemType>
-friend ostream &operator<<(ostream &output,
-                           const ThreadedBST<ItemType> &theTree) {
-   TreeNode<ItemType> *currNode = this->rootPtr;
-   currNode = this->getLeftMost(currNode);
+template<typename Item>
+std::ostream &operator<<(std::ostream &output,
+                           const ThreadedBST<Item> &theTree) {
+   TreeNode<Item> *currNode = theTree.rootPtr;
+   currNode = theTree.getLeftMost(currNode);
 
    while(currNode->getRightChildPtr() != nullptr) {
      output << currNode->getItem() << " ";
@@ -16,9 +15,10 @@ friend ostream &operator<<(ostream &output,
        currNode = currNode->getRightChildPtr();
      } else {
        currNode = currNode->getRightChildPtr();
-       currNode = this->getLeftMost(currNode);
+       currNode = theTree.getLeftMost(currNode);
      }
    }
+   return output;
 }
 
 template<typename ItemType> ThreadedBST<ItemType>::ThreadedBST() {
@@ -35,7 +35,7 @@ ThreadedBST<ItemType>::ThreadedBST(const ItemType& rootItem) {
 
 
 template<typename ItemType>
-ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType> tree) {
+ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType>& tree) {
   this->rootPtr = new TreeNode<ItemType>;
   this->rootPtr->setItem(tree.rootPtr->getItem());
   this->preOrderCopy(tree.rootPtr, this->rootPtr);
@@ -61,21 +61,36 @@ int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
     return 1;
   }
   else {
-    int left;
-    int right;
+    int left = 0;
+    int right = 0;
     if (currNode->getLeftChildPtr() != nullptr) {
       left = getHeight(currNode->getLeftChildPtr()) + 1;
     }
     right = getHeight(currNode->getRightChildPtr()) + 1;
-    if
+    if (left > right) {
+      return left;
+    } else {
+      return right;
+    }
   }
 
 }
 
 
+
 template<typename ItemType>
-TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) {
-  while (currNode->leftChildPtr != nullptr) {
+int ThreadedBST<ItemType>::getNumberOfNodes() const {
+  std::queue<TreeNode<ItemType>*> q;
+  inOrderTraversal(this->rootPtr, q);
+  return q.size();
+}
+
+
+
+template<typename ItemType>
+TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
+                           TreeNode<ItemType>* currNode) const {
+  while (currNode->getLeftChildPtr() != nullptr) {
     currNode = currNode->getLeftChildPtr();
   }
   return currNode;
@@ -83,6 +98,15 @@ TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) {
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::insert(ItemType item) {
+
+
+
+
+  std::cout << item;
+
+
+
+
   if (this->isEmpty()) {
     this->rootPtr = new TreeNode<ItemType>(item);
     return true;
@@ -94,6 +118,7 @@ bool ThreadedBST<ItemType>::insert(ItemType item) {
     if (item < currNode->getItem()) {
       if (currNode->getLeftChildPtr() == nullptr) {
         currNode->setLeftChildPtr(insert);
+        this->threadTree();
         return true;
       } else {
         currNode = currNode->getLeftChildPtr();
@@ -103,13 +128,13 @@ bool ThreadedBST<ItemType>::insert(ItemType item) {
     else {
       if (currNode->getRightChildPtr() == nullptr) {
         currNode->setRightChildPtr(insert);
+        this->threadTree();
         return true;
       } else {
         currNode = currNode->getRightChildPtr();
       }
     }
   }
-  return false;
 }
 
 template<typename ItemType>
@@ -206,7 +231,7 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
   TreeNode<ItemType>* parent = findParent(toBeRemoved);
   // if could not find item to remove
   if (remove == nullptr) {
-    std::cout << "Value can not be removed " << toBeRemoved << std:endl;
+    std::cout << "Value can not be removed " << toBeRemoved << std::endl;
     return false;
   }
   // if wanting to remove root
@@ -222,7 +247,6 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
     parent->setRightChildPtr(nullptr);
   }
 
-
   // if remove has two children
   if (remove->getLeftChildPtr() !=nullptr &&
       remove->getRightChildPtr() != nullptr) {
@@ -234,6 +258,7 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
       delete remove;
+      this->threadTree();
       return true;
     }
     // if current has one child
@@ -243,6 +268,7 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
       delete remove;
+      this->threadTree();
       return true;
     }
   }
@@ -292,7 +318,7 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
 
 template<typename ItemType>
 void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
-                                             queue<TreeNode<ItemType>*>& q) {
+           std::queue<TreeNode<ItemType>*>& q) const {
   // base case
   if (currNode->isLeaf()) {
     q.push(currNode);
@@ -308,8 +334,7 @@ void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
 
 template<typename ItemType>
 void ThreadedBST<ItemType>::threadTree() {
-  TreeNode<ItemType> currNode = this->rootPtr;
-  queue<TreeNode<ItemType>*> q;
+  std::queue<TreeNode<ItemType>*> q;
   inOrderTraversal(this->rootPtr, q);
   while (q.size() > 1) {
     TreeNode<ItemType>* leafThread;
@@ -348,7 +373,7 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   if (treeNode->isLeaf()) {
     prevNode->setLeftChildPtr(nullptr);
     prevNode->setRightChildPtr(nullptr);
-    if (tree->getRightIsThread()) {
+    if (treeNode->getRightIsThread()) {
       prevNode->setRightIsThread(true);
     }
     return;
@@ -370,7 +395,7 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
                       treeNode->getRightChildPtr()->getItem());
 
   // set bool for right thread
-  if (tree->getRightIsThread()) {
+  if (treeNode->getRightIsThread()) {
     prevNode->setRightIsThread(true);
   }
   // recursive call
