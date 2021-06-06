@@ -13,13 +13,15 @@
 int main() {
   TreeNode<int> node1();
   TreeNode<int> node2(5);
-  std::cout << node2.getItem() << std::endl;
+  //std::cout << node2.getItem() << std::endl;
   TreeNode<int> node3(5);
   assert(node2 == node3);
   // node1 = node2;
   TreeNode<int> node5(4);
   assert(node5 < node3);
   assert(node3 > node5);
+
+
 
   ThreadedBST<int> ourTree;
   TreeNode<int> tnode1(5);
@@ -30,7 +32,6 @@ int main() {
   TreeNode<int> tnode6(15);
   TreeNode<int> tnode7(18);
 
-  std::cout << "got here";
 
 
   ourTree.insert(10);

@@ -18,6 +18,8 @@ std::ostream &operator<<(std::ostream &output,
        currNode = theTree.getLeftMost(currNode);
      }
    }
+   // last node
+   output << currNode->getItem() << std::endl;
    return output;
 }
 
@@ -98,17 +100,10 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::insert(ItemType item) {
-
-
-
-
-  std::cout << item;
-
-
-
-
   if (this->isEmpty()) {
     this->rootPtr = new TreeNode<ItemType>(item);
+    this->rootPtr->setLeftChildPtr(nullptr);
+    this->rootPtr->setRightChildPtr(nullptr);
     return true;
   }
   TreeNode<ItemType> *insert = new TreeNode<ItemType>(item);
@@ -126,8 +121,10 @@ bool ThreadedBST<ItemType>::insert(ItemType item) {
     }
     // check right subtree
     else {
-      if (currNode->getRightChildPtr() == nullptr) {
+      if (currNode->getRightChildPtr() == nullptr ||
+          currNode->getRightIsThread()) {
         currNode->setRightChildPtr(insert);
+        currNode->setRightIsThread(false);
         this->threadTree();
         return true;
       } else {
@@ -328,7 +325,9 @@ void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
     inOrderTraversal(currNode->getLeftChildPtr(), q);
   }
   q.push(currNode);
-  inOrderTraversal(currNode->getRightChildPtr(), q);
+  if (currNode->getRightChildPtr() != nullptr && !currNode->getRightIsThread()) {
+    inOrderTraversal(currNode->getRightChildPtr(), q);
+  }
 }
 
 
