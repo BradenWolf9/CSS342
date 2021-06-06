@@ -1,13 +1,8 @@
 #include <iostream>
 #include "threadedBST.h"
+#include<queue>
 
-template<typename ItemType>
-TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) {
-  while (currNode->leftChildPtr != nullptr) {
-    currNode = currNode->getLeftChildPtr();
-  }
-  return currNode;
-}
+
 
 template<typename ItemType>
 friend ostream &operator<<(ostream &output,
@@ -37,10 +32,7 @@ ThreadedBST<ItemType>::ThreadedBST(const ItemType& rootItem) {
 
 
 
-  // recursive call
-  preOrderCopy(treeNode->getLeftChildPtr(), prevNode->getLeftChildPtr());
-  preOrderCopy(treeNode->getRightChildPtr(), prevNode->getRightChildPtr());
-}
+
 
 template<typename ItemType>
 ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType> tree) {
@@ -60,6 +52,33 @@ bool ThreadedBST<ItemType>::isEmpty() const {
     return true;
   }
   return false;
+}
+
+template<typename ItemType>
+int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
+  // base case
+  if (currNode->isLeaf()) {
+    return 1;
+  }
+  else {
+    int left;
+    int right;
+    if (currNode->getLeftChildPtr() != nullptr) {
+      left = getHeight(currNode->getLeftChildPtr()) + 1;
+    }
+    right = getHeight(currNode->getRightChildPtr()) + 1;
+    if
+  }
+
+}
+
+
+template<typename ItemType>
+TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) {
+  while (currNode->leftChildPtr != nullptr) {
+    currNode = currNode->getLeftChildPtr();
+  }
+  return currNode;
 }
 
 template<typename ItemType>
@@ -127,6 +146,60 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType& find) {
   return parent;
 }
 
+
+
+template<typename ItemType>
+bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
+  // if remove has two children
+  if (remove->getLeftChildPtr() !=nullptr &&
+      remove->getRightChildPtr() != nullptr) {
+    TreeNode<ItemType>* current = remove;
+    current = current->getRightChildPtr();
+    current = this->getLeftMost(current);
+    // if current has no children
+    if (current->getRightChildPtr() == nullptr) {
+      current->setLeftChildPtr(remove->getLeftChildPtr());
+      current->setRightChildPtr(remove->getRightChildPtr());
+      delete remove;
+      return true;
+    }
+    // if current has one child
+    else {
+      TreeNode<ItemType>* parent = findParent(current->getItem());
+      parent->setLeftChildPtr(current->getRightChildPtr());
+      current->setLeftChildPtr(remove->getLeftChildPtr());
+      current->setRightChildPtr(remove->getRightChildPtr());
+      delete remove;
+      return true;
+    }
+  }
+  // if remove has one child
+  else if (remove->getLeftChildPtr() != nullptr ||
+           remove->getRightChildPtr() != nullptr) {
+    // if root has left child
+    if (remove->getLeftChildPtr() != nullptr) {
+      this->rootPtr = remove->getLeftChildPtr();
+      delete remove;
+      return true;
+    }
+    // if root has right child
+    else {
+      this->rootPtr = remove->getRightChildPtr();
+      delete remove;
+      return true;
+    }
+  }
+  // if remove has no child
+  else {
+    delete remove;
+    this->rootPtr = nullptr;
+    return true;
+  }
+
+}
+
+
+
 template<typename ItemType>
 bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
   TreeNode<ItemType>* remove = findNode(toBeRemoved);
@@ -138,13 +211,17 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
   }
   // if wanting to remove root
   if (parent == nullptr) {
-    
+    removeRoot(remove);
   }
+  // if node too remove is on left side of parent
   else if (remove->getItem() < parent->getItem()) {
     parent->setLeftChildPtr(nullptr);
-  } else {
+  }
+  // if node too remove is on right side of parent
+  else {
     parent->setRightChildPtr(nullptr);
   }
+
 
   // if remove has two children
   if (remove->getLeftChildPtr() !=nullptr &&
@@ -154,6 +231,15 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
     current = this->getLeftMost(current);
     // if current has no children
     if (current->getRightChildPtr() == nullptr) {
+      current->setLeftChildPtr(remove->getLeftChildPtr());
+      current->setRightChildPtr(remove->getRightChildPtr());
+      delete remove;
+      return true;
+    }
+    // if current has one child
+    else {
+      TreeNode<ItemType>* parent = findParent(current->getItem());
+      parent->setLeftChildPtr(current->getRightChildPtr());
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
       delete remove;
@@ -203,10 +289,47 @@ bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
 }
 
 
+
+template<typename ItemType>
+void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
+                                             queue<TreeNode<ItemType>*>& q) {
+  // base case
+  if (currNode->isLeaf()) {
+    q.push(currNode);
+    return;
+  }
+  if (currNode->getLeftChildPtr() != nullptr) {
+    inOrderTraversal(currNode->getLeftChildPtr(), q);
+  }
+  q.push(currNode);
+  inOrderTraversal(currNode->getRightChildPtr(), q);
+}
+
+
+template<typename ItemType>
+void ThreadedBST<ItemType>::threadTree() {
+  TreeNode<ItemType> currNode = this->rootPtr;
+  queue<TreeNode<ItemType>*> q;
+  inOrderTraversal(this->rootPtr, q);
+  while (q.size() > 1) {
+    TreeNode<ItemType>* leafThread;
+    // if current item in queue is a leaf, set next item as its right child
+    if (q.front()->isLeaf()) {
+      leafThread = q.front();
+      q.pop();
+      leafThread->setRightChildPtr(q.front());
+      leafThread->setRightIsThread(true);
+    }
+    q.pop();
+  }
+}
+
+
+
 template<typename ItemType>
 void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   // base case
-  if (this->isLeaf()) {
+  if (currNode->isLeaf()) {
     delete currNode;
     return;
   }
@@ -216,10 +339,11 @@ void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   return;
 }
 
+
+
 template<typename ItemType>
 void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
                                          TreeNode<ItemType> *prevNode) {
-
   // base case
   if (treeNode->isLeaf()) {
     prevNode->setLeftChildPtr(nullptr);
@@ -249,3 +373,14 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   if (tree->getRightIsThread()) {
     prevNode->setRightIsThread(true);
   }
+  // recursive call
+  preOrderCopy(treeNode->getLeftChildPtr(), prevNode->getLeftChildPtr());
+  preOrderCopy(treeNode->getRightChildPtr(), prevNode->getRightChildPtr());
+}
+
+template<typename ItemType>
+ThreadedBST<ItemType>& ThreadedBST<ItemType>::operator=(
+                      const ThreadedBST<ItemType>& right) {
+  this->rootPtr->setItem(right.rootPtr->getItem());
+  this->preOrderCopy(right.rootPtr, this->rootPtr);
+}

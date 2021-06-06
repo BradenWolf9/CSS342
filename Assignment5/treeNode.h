@@ -9,7 +9,7 @@ class TreeNode
   TreeNode<ItemType> *leftChildPtr;
   TreeNode<ItemType> *rightChildPtr;
   bool rightIsThread;
-  bool leftIsThread;
+  
 
   public:
   TreeNode();
