@@ -24,16 +24,6 @@ int main() {
 
 
   ThreadedBST<int> ourTree;
-  TreeNode<int> tnode1(5);
-  TreeNode<int> tnode2(7);
-  TreeNode<int> tnode3(8);
-  TreeNode<int> tnode4(10);
-  TreeNode<int> tnode5(11);
-  TreeNode<int> tnode6(15);
-  TreeNode<int> tnode7(18);
-
-
-
   ourTree.insert(10);
   ourTree.insert(7);
   ourTree.insert(15);
@@ -42,7 +32,32 @@ int main() {
   ourTree.insert(11);
   ourTree.insert(18);
 
-  std::cout << ourTree;
+  // Test output of ourTree
+  std::cout << ourTree << std::endl;
 
-  TreeNode<int> node4 = node2;
-}
+  // Test copy c'tor and copy operator
+ //ThreadedBST<int> copyTree(ourTree);
+  ThreadedBST<int> copyCtorTree(ourTree);
+  ThreadedBST<int> copyOpTree = ourTree;
+  std::cout << "Copy constructor: " << copyCtorTree << std::endl;
+  std::cout << "Copy operator: " << copyOpTree << std::endl;
+
+  // Test member functions
+  std::cout << "Height of ourTree: " << ourTree.getHeight(ourTree.getRoot()) << std::endl; // expecting 3
+  std::cout << "Number of nodes in ourTree: " << ourTree.getNumberOfNodes() << std::endl;
+  
+  // Test destructor
+  //std::cout << tnode0->getItem() << std::endl;
+  //ourTree.~ThreadedBST();
+  std::cout << "Print true(1) or false(0) isEmpty: " << ourTree.isEmpty() << std::endl; // should print 1
+  std::cout << ourTree << std::endl;
+
+  ThreadedBST<int> ctorTree(6);
+  ctorTree.insert(3);
+  ctorTree.insert(9);
+  std::cout << ctorTree << std::endl;
+  //ctorTree.remove(9);
+  std::cout << ctorTree << std::endl;
+
+
+} 

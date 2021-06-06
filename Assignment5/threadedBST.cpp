@@ -19,7 +19,7 @@ std::ostream &operator<<(std::ostream &output,
      }
    }
    // last node
-   output << currNode->getItem() << std::endl;
+   output << currNode->getItem();
    return output;
 }
 
@@ -41,6 +41,7 @@ ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType>& tree) {
   this->rootPtr = new TreeNode<ItemType>;
   this->rootPtr->setItem(tree.rootPtr->getItem());
   this->preOrderCopy(tree.rootPtr, this->rootPtr);
+  this->threadTree();
 }
 
 template<typename ItemType>
@@ -78,16 +79,12 @@ int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
 
 }
 
-
-
 template<typename ItemType>
 int ThreadedBST<ItemType>::getNumberOfNodes() const {
   std::queue<TreeNode<ItemType>*> q;
   inOrderTraversal(this->rootPtr, q);
   return q.size();
 }
-
-
 
 template<typename ItemType>
 TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
@@ -168,7 +165,10 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType& find) {
   return parent;
 }
 
-
+template<typename ItemType>
+TreeNode<ItemType>* ThreadedBST<ItemType>::getRoot() {
+  return this->rootPtr;
+}
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
@@ -219,8 +219,6 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
   }
 
 }
-
-
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
@@ -360,6 +358,7 @@ void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   makeEmpty(currNode->getLeftChildPtr());
   makeEmpty(currNode->getRightChildPtr());
   delete currNode;
+  rootPtr = nullptr;
   return;
 }
 
@@ -407,4 +406,5 @@ ThreadedBST<ItemType>& ThreadedBST<ItemType>::operator=(
                       const ThreadedBST<ItemType>& right) {
   this->rootPtr->setItem(right.rootPtr->getItem());
   this->preOrderCopy(right.rootPtr, this->rootPtr);
+  this->threaded();
 }

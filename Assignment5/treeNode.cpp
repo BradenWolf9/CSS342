@@ -6,7 +6,6 @@ template <typename ItemType> TreeNode<ItemType>::TreeNode() {
   this->leftChildPtr = nullptr;
   this->rightChildPtr = nullptr;
   this->rightIsThread = false;
-  this->leftIsThread = false;
 }
 
 template <typename ItemType> TreeNode<ItemType>::~TreeNode() {
