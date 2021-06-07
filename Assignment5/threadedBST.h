@@ -11,7 +11,7 @@ class ThreadedBST
   template<class Item>
   friend std::ostream &operator<<(std::ostream &output,
                              const ThreadedBST<Item> &theTree);
-  
+
 private:
 TreeNode<ItemType>* rootPtr;
 //
@@ -37,15 +37,15 @@ int getNumberOfNodes() const;
 // call thread function at end
 bool insert(ItemType item);
 //
-TreeNode<ItemType>* findNode(ItemType& find);
+TreeNode<ItemType>* findNode(ItemType find);
 //
-TreeNode<ItemType>* findParent(ItemType& find);
+TreeNode<ItemType>* findParent(ItemType find);
 //
 TreeNode<ItemType>* getRoot();
 
 
 // call thread function at end
-bool remove(ItemType& toBeRemoved);
+bool remove(ItemType toBeRemoved);
 //
 void inOrderTraversal(TreeNode<ItemType>* currNode,
                       std::queue<TreeNode<ItemType>*>& q) const;

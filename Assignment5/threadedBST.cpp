@@ -3,6 +3,7 @@
 #include<queue>
 
 
+
 template<typename Item>
 std::ostream &operator<<(std::ostream &output,
                            const ThreadedBST<Item> &theTree) {
@@ -34,8 +35,6 @@ ThreadedBST<ItemType>::ThreadedBST(const ItemType& rootItem) {
 
 
 
-
-
 template<typename ItemType>
 ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType>& tree) {
   this->rootPtr = new TreeNode<ItemType>;
@@ -44,10 +43,14 @@ ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType>& tree) {
   this->threadTree();
 }
 
+
+
 template<typename ItemType>
 ThreadedBST<ItemType>::~ThreadedBST() {
   this->makeEmpty(this->rootPtr);
 }
+
+
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::isEmpty() const {
@@ -56,6 +59,8 @@ bool ThreadedBST<ItemType>::isEmpty() const {
   }
   return false;
 }
+
+
 
 template<typename ItemType>
 int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
@@ -79,12 +84,16 @@ int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
 
 }
 
+
+
 template<typename ItemType>
 int ThreadedBST<ItemType>::getNumberOfNodes() const {
   std::queue<TreeNode<ItemType>*> q;
   inOrderTraversal(this->rootPtr, q);
   return q.size();
 }
+
+
 
 template<typename ItemType>
 TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
@@ -94,6 +103,8 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
   }
   return currNode;
 }
+
+
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::insert(ItemType item) {
@@ -131,9 +142,11 @@ bool ThreadedBST<ItemType>::insert(ItemType item) {
   }
 }
 
+
+
 template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType& find) {
-  TreeNode<ItemType> currNode = this->rootPtr;
+TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType find) {
+  TreeNode<ItemType>* currNode = this->rootPtr;
   while(find != currNode->getItem() && currNode != nullptr) {
     if (find < currNode->getItem()) {
       currNode = currNode->getLeftChildPtr();
@@ -147,10 +160,12 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType& find) {
   return currNode;
 }
 
+
+
 template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType& find) {
-  TreeNode<ItemType> currNode = this->rootPtr;
-  TreeNode<ItemType> parent = nullptr;
+TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType find) {
+  TreeNode<ItemType>* currNode = this->rootPtr;
+  TreeNode<ItemType>* parent = nullptr;
   while(find != currNode->getItem() && currNode != nullptr) {
     parent = currNode;
     if (find < currNode->getItem()) {
@@ -165,10 +180,14 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType& find) {
   return parent;
 }
 
+
+
 template<typename ItemType>
 TreeNode<ItemType>* ThreadedBST<ItemType>::getRoot() {
   return this->rootPtr;
 }
+
+
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
@@ -220,8 +239,10 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
 
 }
 
+
+
 template<typename ItemType>
-bool ThreadedBST<ItemType>::remove(ItemType& toBeRemoved) {
+bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   TreeNode<ItemType>* remove = findNode(toBeRemoved);
   TreeNode<ItemType>* parent = findParent(toBeRemoved);
   // if could not find item to remove
@@ -329,6 +350,7 @@ void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
 }
 
 
+
 template<typename ItemType>
 void ThreadedBST<ItemType>::threadTree() {
   std::queue<TreeNode<ItemType>*> q;
@@ -400,6 +422,8 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   preOrderCopy(treeNode->getLeftChildPtr(), prevNode->getLeftChildPtr());
   preOrderCopy(treeNode->getRightChildPtr(), prevNode->getRightChildPtr());
 }
+
+
 
 template<typename ItemType>
 ThreadedBST<ItemType>& ThreadedBST<ItemType>::operator=(
