@@ -8,10 +8,7 @@ template <typename ItemType> TreeNode<ItemType>::TreeNode() {
   this->rightIsThread = false;
 }
 
-template <typename ItemType> TreeNode<ItemType>::~TreeNode() {
-  this->leftChildPtr = nullptr;
-  this->rightChildPtr = nullptr;
-}
+template <typename ItemType> TreeNode<ItemType>::~TreeNode() {}
 
 template <typename ItemType>
 TreeNode<ItemType>::TreeNode(const ItemType& anItem) {

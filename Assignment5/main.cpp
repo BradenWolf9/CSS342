@@ -51,8 +51,8 @@ int main() {
 
   // Test destructor
   //std::cout << tnode0->getItem() << std::endl;
-  //ourTree.~ThreadedBST();
-  std::cout << "Print true(1) or false(0) isEmpty: " << ourTree.isEmpty()
+  ThreadedBST<int> empty;
+  std::cout << "Print true(1) or false(0) isEmpty: " << empty.isEmpty()
             << std::endl; // should print 1
   std::cout << ourTree << std::endl;
 
@@ -66,4 +66,7 @@ int main() {
   std::cout << ctorTree << std::endl;
   assert(ourTree.remove(10));
 
+  // TreeNode<int>* find = ourTree.findNode(18);
+  // assert(find->getItem() == 18);
+  std::cout << "we fnished here" << std::endl;
 }
