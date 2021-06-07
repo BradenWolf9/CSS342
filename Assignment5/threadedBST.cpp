@@ -10,6 +10,7 @@ std::ostream &operator<<(std::ostream &output,
    TreeNode<Item> *currNode = theTree.rootPtr;
    currNode = theTree.getLeftMost(currNode);
 
+
    while(currNode->getRightChildPtr() != nullptr) {
      output << currNode->getItem() << " ";
      if (currNode->getRightIsThread()) {
@@ -18,7 +19,7 @@ std::ostream &operator<<(std::ostream &output,
        currNode = currNode->getRightChildPtr();
        currNode = theTree.getLeftMost(currNode);
      }
-   }
+   }   
    // last node
    output << currNode->getItem();
    return output;
@@ -191,16 +192,18 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::getRoot() {
 
 template<typename ItemType>
 bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
+  TreeNode<ItemType>* current = remove;
+
   // if remove has two children
   if (remove->getLeftChildPtr() !=nullptr &&
       remove->getRightChildPtr() != nullptr) {
-    TreeNode<ItemType>* current = remove;
     current = current->getRightChildPtr();
     current = this->getLeftMost(current);
     // if current has no children
-    if (current->getRightChildPtr() == nullptr) {
+    if (current->isLeaf()) {
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
+      current->setRightIsThread(false);
       delete remove;
       return true;
     }
@@ -214,6 +217,7 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
       return true;
     }
   }
+
   // if remove has one child
   else if (remove->getLeftChildPtr() != nullptr ||
            remove->getRightChildPtr() != nullptr) {
@@ -221,22 +225,30 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
     if (remove->getLeftChildPtr() != nullptr) {
       this->rootPtr = remove->getLeftChildPtr();
       delete remove;
+      if (current->getRightIsThread()) {
+        current->setRightChildPtr(nullptr);
+        current->setRightIsThread(false);
+      }
       return true;
     }
     // if root has right child
     else {
       this->rootPtr = remove->getRightChildPtr();
       delete remove;
+      if (current->getRightIsThread()) {
+        current->setRightChildPtr(nullptr);
+        current->setRightIsThread(false);
+      }
       return true;
     }
   }
+
   // if remove has no child
   else {
     delete remove;
     this->rootPtr = nullptr;
     return true;
   }
-
 }
 
 
@@ -252,7 +264,7 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   }
   // if wanting to remove root
   if (parent == nullptr) {
-    removeRoot(remove);
+    return removeRoot(remove);
   }
   // if node too remove is on left side of parent
   else if (remove->getItem() < parent->getItem()) {
@@ -377,8 +389,12 @@ void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
     delete currNode;
     return;
   }
-  makeEmpty(currNode->getLeftChildPtr());
-  makeEmpty(currNode->getRightChildPtr());
+  if (currNode->getLeftChildPtr() != nullptr) {
+    makeEmpty(currNode->getLeftChildPtr());
+  }
+  if (currNode->getRightChildPtr() != nullptr) {
+    makeEmpty(currNode->getRightChildPtr());
+  }
   delete currNode;
   rootPtr = nullptr;
   return;

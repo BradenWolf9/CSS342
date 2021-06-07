@@ -62,7 +62,8 @@ int main() {
   std::cout << ctorTree << std::endl;
   ctorTree.remove(9);
   std::cout << ctorTree << std::endl;
-
-  std::cerr << "got here" << std::endl;
+  assert(ctorTree.remove(6));
+  std::cout << ctorTree << std::endl;
+  assert(ourTree.remove(10));
 
 }
