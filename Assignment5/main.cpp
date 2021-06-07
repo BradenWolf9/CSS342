@@ -66,7 +66,9 @@ int main() {
   std::cout << ctorTree << std::endl;
   assert(ourTree.remove(10));
 
-  // TreeNode<int>* find = ourTree.findNode(18);
-  // assert(find->getItem() == 18);
+  assert(ctorTree.getRoot()->isLeaf());
+
+  TreeNode<int>* find = ourTree.findNode(18);
+  assert(find->getItem() == 18);
   std::cout << "we fnished here" << std::endl;
 }

@@ -193,12 +193,14 @@ template<typename ItemType>
 bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
   TreeNode<ItemType>* current = remove;
   // if remove has two children
-  if (remove->getLeftChildPtr() !=nullptr &&
+  if (remove->getLeftChildPtr() != nullptr &&
       remove->getRightChildPtr() != nullptr) {
     current = current->getRightChildPtr();
     current = this->getLeftMost(current);
     // if current has no children
     if (current->isLeaf()) {
+      TreeNode<ItemType>* parent = findParent(current->getItem());
+      parent->setLeftChildPtr(nullptr);
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
       current->setRightIsThread(false);
@@ -281,6 +283,8 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
     current = this->getLeftMost(current);
     // if current has no children
     if (current->getRightChildPtr() == nullptr) {
+      TreeNode<ItemType>* parent = findParent(current->getItem());
+      parent->setLeftChildPtr(nullptr);
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
       delete remove;
