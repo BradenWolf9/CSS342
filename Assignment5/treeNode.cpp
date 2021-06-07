@@ -37,7 +37,7 @@ template <typename ItemType> ItemType TreeNode<ItemType>::getItem() const {
 }
 
 template <typename ItemType> bool TreeNode<ItemType>::isLeaf() const {
-  if (this->leftChildPtr == nullptr) {    
+  if (this->leftChildPtr == nullptr) {
     return true;
   }
   return false;
@@ -69,18 +69,8 @@ void TreeNode<ItemType>::setRightIsThread(bool thread) {
 }
 
 template <typename ItemType>
-void TreeNode<ItemType>::setLeftIsThread(bool thread) {
-  this->leftIsThread = thread;
-}
-
-template <typename ItemType>
 bool TreeNode<ItemType>::getRightIsThread() {
   return this->rightIsThread;
-}
-
-template <typename ItemType>
-bool TreeNode<ItemType>::getLeftIsThread() {
-  return this->leftIsThread;
 }
 
 template <typename ItemType>

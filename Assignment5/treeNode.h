@@ -9,7 +9,7 @@ class TreeNode
   TreeNode<ItemType> *leftChildPtr;
   TreeNode<ItemType> *rightChildPtr;
   bool rightIsThread;
-  
+
 
   public:
   TreeNode();
@@ -30,10 +30,8 @@ class TreeNode
   void setRightChildPtr(TreeNode<ItemType>* rightPtr);
 
   void setRightIsThread(bool thread);
-  void setLeftIsThread(bool thread);
 
   bool getRightIsThread();
-  bool getLeftIsThread();
 
   void operator=(const TreeNode<ItemType> &right);
   bool operator==(const TreeNode& right) const;

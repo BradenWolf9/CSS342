@@ -41,7 +41,7 @@ int main() {
   ThreadedBST<int> copyCtorTree(ourTree);
   ThreadedBST<int> copyOpTree = ourTree;
   std::cout << "Copy constructor: " << copyCtorTree << std::endl;
-  std::cout << "Copy operator: " << copyOpTree << std::endl;
+  std::cout << "Copy operator:    " << copyOpTree << std::endl;
 
   // Test member functions
   std::cout << "Height of ourTree: " << ourTree.getHeight(ourTree.getRoot())
@@ -69,6 +69,10 @@ int main() {
   assert(ctorTree.getRoot()->isLeaf());
 
   TreeNode<int>* find = ourTree.findNode(18);
+  TreeNode<int>* findParent = ourTree.findParent(18);
+
+
   assert(find->getItem() == 18);
+  assert(findParent->getItem() == 15);
   std::cout << "we fnished here" << std::endl;
 }

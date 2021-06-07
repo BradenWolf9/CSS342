@@ -18,6 +18,15 @@ TreeNode<ItemType>* rootPtr;
 TreeNode<ItemType>* getLeftMost(TreeNode<ItemType>* currNode) const;
 //
 bool removeRoot(TreeNode<ItemType>* remove);
+//
+void inOrderTraversal(TreeNode<ItemType>* currNode,
+                      std::queue<TreeNode<ItemType>*>& q) const;
+
+//
+void threadTree();
+
+// use pre order
+void preOrderCopy(TreeNode<ItemType> *treeNode, TreeNode<ItemType> *prevNode);
 public:
 //
 ThreadedBST();
@@ -43,20 +52,12 @@ TreeNode<ItemType>* findParent(ItemType find);
 //
 TreeNode<ItemType>* getRoot();
 
-
 // call thread function at end
 bool remove(ItemType toBeRemoved);
-//
-void inOrderTraversal(TreeNode<ItemType>* currNode,
-                      std::queue<TreeNode<ItemType>*>& q) const;
-//
-void threadTree();
 
 // use post order
 void makeEmpty(TreeNode<ItemType> *currNode);
 
-// use pre order
-void preOrderCopy(TreeNode<ItemType> *treeNode, TreeNode<ItemType> *prevNode);
 //
 ThreadedBST<ItemType>& operator=(const ThreadedBST& right);
 };
