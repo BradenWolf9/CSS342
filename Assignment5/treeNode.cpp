@@ -1,6 +1,5 @@
-#include <iostream>
 #include "treeNode.h"
-
+#include <iostream>
 
 template <typename ItemType> TreeNode<ItemType>::TreeNode() {
   this->leftChildPtr = nullptr;
@@ -11,15 +10,15 @@ template <typename ItemType> TreeNode<ItemType>::TreeNode() {
 template <typename ItemType> TreeNode<ItemType>::~TreeNode() {}
 
 template <typename ItemType>
-TreeNode<ItemType>::TreeNode(const ItemType& anItem) {
-  this-> item = anItem;
+TreeNode<ItemType>::TreeNode(const ItemType &anItem) {
+  this->item = anItem;
   this->leftChildPtr = nullptr;
   this->rightChildPtr = nullptr;
   this->rightIsThread = false;
 }
 
 template <typename ItemType>
-TreeNode<ItemType>::TreeNode(const ItemType& anItem, TreeNode<ItemType> leftPtr,
+TreeNode<ItemType>::TreeNode(const ItemType &anItem, TreeNode<ItemType> leftPtr,
                              TreeNode<ItemType> rightPtr) {
   this->item = anItem;
   this->leftChildPtr = leftPtr;
@@ -28,7 +27,7 @@ TreeNode<ItemType>::TreeNode(const ItemType& anItem, TreeNode<ItemType> leftPtr,
 }
 
 template <typename ItemType>
-void TreeNode<ItemType>::setItem(const ItemType& anItem) {
+void TreeNode<ItemType>::setItem(const ItemType &anItem) {
   this->item = anItem;
 }
 
@@ -43,23 +42,23 @@ template <typename ItemType> bool TreeNode<ItemType>::isLeaf() const {
   return false;
 }
 
-template <typename ItemType> TreeNode<ItemType>*
-TreeNode<ItemType>::getLeftChildPtr() const {
+template <typename ItemType>
+TreeNode<ItemType> *TreeNode<ItemType>::getLeftChildPtr() const {
   return this->leftChildPtr;
 }
 
-template <typename ItemType> TreeNode<ItemType>*
-TreeNode<ItemType>::getRightChildPtr() const {
+template <typename ItemType>
+TreeNode<ItemType> *TreeNode<ItemType>::getRightChildPtr() const {
   return this->rightChildPtr;
 }
 
 template <typename ItemType>
-void TreeNode<ItemType>::setLeftChildPtr(TreeNode<ItemType>* leftPtr) {
+void TreeNode<ItemType>::setLeftChildPtr(TreeNode<ItemType> *leftPtr) {
   this->leftChildPtr = leftPtr;
 }
 
 template <typename ItemType>
-void TreeNode<ItemType>::setRightChildPtr(TreeNode<ItemType>* rightPtr) {
+void TreeNode<ItemType>::setRightChildPtr(TreeNode<ItemType> *rightPtr) {
   this->rightChildPtr = rightPtr;
 }
 
@@ -68,8 +67,7 @@ void TreeNode<ItemType>::setRightIsThread(bool thread) {
   this->rightIsThread = thread;
 }
 
-template <typename ItemType>
-bool TreeNode<ItemType>::getRightIsThread() {
+template <typename ItemType> bool TreeNode<ItemType>::getRightIsThread() {
   return this->rightIsThread;
 }
 
@@ -83,19 +81,19 @@ void TreeNode<ItemType>::operator=(const TreeNode<ItemType> &right) {
 }
 
 template <typename ItemType>
-bool TreeNode<ItemType>::operator==(const TreeNode& right) const {
+bool TreeNode<ItemType>::operator==(const TreeNode &right) const {
   if (this->item == right.item) {
-      // this->leftChildPtr == right.leftChildPtr &&
-      // this->rightChildPtr == right.rightChildPtr &&
-      // this->leftIsThread == right.leftIsThread &&
-      // this->rightIsThread == right.rightIsThread) {
-        return true;
-      }
+    // this->leftChildPtr == right.leftChildPtr &&
+    // this->rightChildPtr == right.rightChildPtr &&
+    // this->leftIsThread == right.leftIsThread &&
+    // this->rightIsThread == right.rightIsThread) {
+    return true;
+  }
   return false;
 }
 
 template <typename ItemType>
-bool TreeNode<ItemType>::operator<(const TreeNode& right) const {
+bool TreeNode<ItemType>::operator<(const TreeNode &right) const {
   if (this->item < right.item) {
     return true;
   }
@@ -103,7 +101,7 @@ bool TreeNode<ItemType>::operator<(const TreeNode& right) const {
 }
 
 template <typename ItemType>
-bool TreeNode<ItemType>::operator>(const TreeNode& right) const {
+bool TreeNode<ItemType>::operator>(const TreeNode &right) const {
   if (this->item > right.item) {
     return true;
   }
