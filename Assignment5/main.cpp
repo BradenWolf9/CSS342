@@ -28,11 +28,14 @@
  * 
  */
 void testNodes() {
+  // Instantiation of TreeNode objects
   TreeNode<int> node1();
   TreeNode<int> node2(5);
   TreeNode<int> node3(5);
-  assert(node2 == node3);
   TreeNode<int> node5(4);
+  
+  // Test TreeNode operators
+  assert(node2 == node3);
   assert(node5 < node3);
   assert(node3 > node5);
   node5 = node2;
