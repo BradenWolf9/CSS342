@@ -1,74 +1,66 @@
-#include <iostream>
+/**
+ * @file threadedBST.cpp
+ * @brief implementation file for ThreadedBST class
+ * @author Tristan Cortez and Braden Wolf
+ */
 #include "threadedBST.h"
-#include<queue>
+#include <iostream>
+#include <queue>
 
-
-
-template<typename Item>
+template <typename Item>
 std::ostream &operator<<(std::ostream &output,
-                           const ThreadedBST<Item> &theTree) {
-   TreeNode<Item> *currNode = theTree.rootPtr;
-   currNode = theTree.getLeftMost(currNode);
+                         const ThreadedBST<Item> &theTree) {
+  TreeNode<Item> *currNode = theTree.rootPtr;
+  currNode = theTree.getLeftMost(currNode);
 
-   while(currNode->getRightChildPtr() != nullptr) {
-     output << currNode->getItem() << " ";
-     if (currNode->getRightIsThread()) {
-       currNode = currNode->getRightChildPtr();
-     } else {
-       currNode = currNode->getRightChildPtr();
-       currNode = theTree.getLeftMost(currNode);
-     }
-   }
-   // last node
-   output << currNode->getItem();
-   return output;
+  while (currNode->getRightChildPtr() != nullptr) {
+    output << currNode->getItem() << " ";
+    if (currNode->getRightIsThread()) {
+      currNode = currNode->getRightChildPtr();
+    } else {
+      currNode = currNode->getRightChildPtr();
+      currNode = theTree.getLeftMost(currNode);
+    }
+  }
+  // last node
+  output << currNode->getItem();
+  return output;
 }
 
-template<typename ItemType> ThreadedBST<ItemType>::ThreadedBST() {
+template <typename ItemType> ThreadedBST<ItemType>::ThreadedBST() {
   this->rootPtr = nullptr;
 }
 
-template<typename ItemType>
-ThreadedBST<ItemType>::ThreadedBST(const ItemType& rootItem) {
+template <typename ItemType>
+ThreadedBST<ItemType>::ThreadedBST(const ItemType &rootItem) {
   this->rootPtr = new TreeNode<ItemType>(rootItem);
 }
 
-
-
-template<typename ItemType>
-ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType>& tree) {
+template <typename ItemType>
+ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType> &tree) {
   this->rootPtr = new TreeNode<ItemType>;
   this->rootPtr->setItem(tree.rootPtr->getItem());
   this->preOrderCopy(tree.rootPtr, this->rootPtr);
   this->threadTree();
 }
 
-
-
-template<typename ItemType>
-ThreadedBST<ItemType>::~ThreadedBST() {
+template <typename ItemType> ThreadedBST<ItemType>::~ThreadedBST() {
   this->makeEmpty(this->rootPtr);
 }
 
-
-
-template<typename ItemType>
-bool ThreadedBST<ItemType>::isEmpty() const {
+template <typename ItemType> bool ThreadedBST<ItemType>::isEmpty() const {
   if (this->rootPtr == nullptr) {
     return true;
   }
   return false;
 }
 
-
-
-template<typename ItemType>
-int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
+template <typename ItemType>
+int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType> *currNode) const {
   // base case
   if (currNode->isLeaf()) {
     return 1;
-  }
-  else {
+  } else {
     int left = 0;
     int right = 0;
     if (currNode->getLeftChildPtr() != nullptr) {
@@ -81,33 +73,25 @@ int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType>* currNode) const {
       return right;
     }
   }
-
 }
 
-
-
-template<typename ItemType>
+template <typename ItemType>
 int ThreadedBST<ItemType>::getNumberOfNodes() const {
-  std::queue<TreeNode<ItemType>*> q;
+  std::queue<TreeNode<ItemType> *> q;
   inOrderTraversal(this->rootPtr, q);
   return q.size();
 }
 
-
-
-template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::getLeftMost(
-                           TreeNode<ItemType>* currNode) const {
+template <typename ItemType>
+TreeNode<ItemType> *
+ThreadedBST<ItemType>::getLeftMost(TreeNode<ItemType> *currNode) const {
   while (currNode->getLeftChildPtr() != nullptr) {
     currNode = currNode->getLeftChildPtr();
   }
   return currNode;
 }
 
-
-
-template<typename ItemType>
-bool ThreadedBST<ItemType>::insert(ItemType item) {
+template <typename ItemType> bool ThreadedBST<ItemType>::insert(ItemType item) {
   if (this->isEmpty()) {
     this->rootPtr = new TreeNode<ItemType>(item);
     this->rootPtr->setLeftChildPtr(nullptr);
@@ -142,12 +126,10 @@ bool ThreadedBST<ItemType>::insert(ItemType item) {
   }
 }
 
-
-
-template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType find) {
-  TreeNode<ItemType>* currNode = this->rootPtr;
-  while(find != currNode->getItem() && currNode != nullptr) {
+template <typename ItemType>
+TreeNode<ItemType> *ThreadedBST<ItemType>::findNode(ItemType find) {
+  TreeNode<ItemType> *currNode = this->rootPtr;
+  while (find != currNode->getItem() && currNode != nullptr) {
     if (find < currNode->getItem()) {
       currNode = currNode->getLeftChildPtr();
     } else if (find > currNode->getItem()) {
@@ -160,13 +142,11 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findNode(ItemType find) {
   return currNode;
 }
 
-
-
-template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType find) {
-  TreeNode<ItemType>* currNode = this->rootPtr;
-  TreeNode<ItemType>* parent = nullptr;
-  while(find != currNode->getItem() && currNode != nullptr) {
+template <typename ItemType>
+TreeNode<ItemType> *ThreadedBST<ItemType>::findParent(ItemType find) {
+  TreeNode<ItemType> *currNode = this->rootPtr;
+  TreeNode<ItemType> *parent = nullptr;
+  while (find != currNode->getItem() && currNode != nullptr) {
     parent = currNode;
     if (find < currNode->getItem()) {
       currNode = currNode->getLeftChildPtr();
@@ -180,18 +160,14 @@ TreeNode<ItemType>* ThreadedBST<ItemType>::findParent(ItemType find) {
   return parent;
 }
 
-
-
-template<typename ItemType>
-TreeNode<ItemType>* ThreadedBST<ItemType>::getRoot() {
+template <typename ItemType>
+TreeNode<ItemType> *ThreadedBST<ItemType>::getRoot() {
   return this->rootPtr;
 }
 
-
-
-template<typename ItemType>
-bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
-  TreeNode<ItemType>* current = remove;
+template <typename ItemType>
+bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType> *remove) {
+  TreeNode<ItemType> *current = remove;
   // if remove has two children
   if (remove->getLeftChildPtr() != nullptr &&
       remove->getRightChildPtr() != nullptr) {
@@ -199,7 +175,7 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
     current = this->getLeftMost(current);
     // if current has no children
     if (current->isLeaf()) {
-      TreeNode<ItemType>* parent = findParent(current->getItem());
+      TreeNode<ItemType> *parent = findParent(current->getItem());
       parent->setLeftChildPtr(nullptr);
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
@@ -210,7 +186,7 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
     }
     // if current has one child
     else {
-      TreeNode<ItemType>* parent = findParent(current->getItem());
+      TreeNode<ItemType> *parent = findParent(current->getItem());
       parent->setLeftChildPtr(current->getRightChildPtr());
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
@@ -253,12 +229,10 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType>* remove) {
   }
 }
 
-
-
-template<typename ItemType>
+template <typename ItemType>
 bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
-  TreeNode<ItemType>* remove = findNode(toBeRemoved);
-  TreeNode<ItemType>* parent = findParent(toBeRemoved);
+  TreeNode<ItemType> *remove = findNode(toBeRemoved);
+  TreeNode<ItemType> *parent = findParent(toBeRemoved);
   // if could not find item to remove
   if (remove == nullptr) {
     std::cout << "Value can not be removed " << toBeRemoved << std::endl;
@@ -278,14 +252,14 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   }
 
   // if remove has two children
-  if (remove->getLeftChildPtr() !=nullptr &&
+  if (remove->getLeftChildPtr() != nullptr &&
       remove->getRightChildPtr() != nullptr) {
-    TreeNode<ItemType>* current = remove;
+    TreeNode<ItemType> *current = remove;
     current = current->getRightChildPtr();
     current = this->getLeftMost(current);
     // if current has no children
     if (current->getRightChildPtr() == nullptr) {
-      TreeNode<ItemType>* parent = findParent(current->getItem());
+      TreeNode<ItemType> *parent = findParent(current->getItem());
       parent->setLeftChildPtr(nullptr);
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
@@ -295,7 +269,7 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
     }
     // if current has one child
     else {
-      TreeNode<ItemType>* parent = findParent(current->getItem());
+      TreeNode<ItemType> *parent = findParent(current->getItem());
       parent->setLeftChildPtr(current->getRightChildPtr());
       current->setLeftChildPtr(remove->getLeftChildPtr());
       current->setRightChildPtr(remove->getRightChildPtr());
@@ -336,7 +310,7 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
         parent->setRightChildPtr(remove->getRightChildPtr());
         delete remove;
         return true;
-    }
+      }
     }
   }
   // if remove has no children
@@ -346,11 +320,9 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   }
 }
 
-
-
-template<typename ItemType>
-void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
-           std::queue<TreeNode<ItemType>*>& q) const {
+template <typename ItemType>
+void ThreadedBST<ItemType>::inOrderTraversal(
+    TreeNode<ItemType> *currNode, std::queue<TreeNode<ItemType> *> &q) const {
   // base case
   if (currNode->isLeaf()) {
     q.push(currNode);
@@ -360,19 +332,17 @@ void ThreadedBST<ItemType>::inOrderTraversal(TreeNode<ItemType>* currNode,
     inOrderTraversal(currNode->getLeftChildPtr(), q);
   }
   q.push(currNode);
-  if (currNode->getRightChildPtr() != nullptr && !currNode->getRightIsThread()) {
+  if (currNode->getRightChildPtr() != nullptr &&
+      !currNode->getRightIsThread()) {
     inOrderTraversal(currNode->getRightChildPtr(), q);
   }
 }
 
-
-
-template<typename ItemType>
-void ThreadedBST<ItemType>::threadTree() {
-  std::queue<TreeNode<ItemType>*> q;
+template <typename ItemType> void ThreadedBST<ItemType>::threadTree() {
+  std::queue<TreeNode<ItemType> *> q;
   inOrderTraversal(this->rootPtr, q);
   while (q.size() > 1) {
-    TreeNode<ItemType>* leafThread;
+    TreeNode<ItemType> *leafThread;
     // if current item in queue is a leaf, set next item as its right child
     if (q.front()->isLeaf()) {
       leafThread = q.front();
@@ -384,9 +354,7 @@ void ThreadedBST<ItemType>::threadTree() {
   }
 }
 
-
-
-template<typename ItemType>
+template <typename ItemType>
 void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   if (currNode == nullptr) {
     return;
@@ -407,9 +375,7 @@ void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   return;
 }
 
-
-
-template<typename ItemType>
+template <typename ItemType>
 void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
                                          TreeNode<ItemType> *prevNode) {
   // base case
@@ -435,7 +401,7 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   // set items of children
   prevNode->getLeftChildPtr()->setItem(treeNode->getLeftChildPtr()->getItem());
   prevNode->getRightChildPtr()->setItem(
-                      treeNode->getRightChildPtr()->getItem());
+      treeNode->getRightChildPtr()->getItem());
 
   // set bool for right thread
   if (treeNode->getRightIsThread()) {
@@ -446,11 +412,9 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   preOrderCopy(treeNode->getRightChildPtr(), prevNode->getRightChildPtr());
 }
 
-
-
-template<typename ItemType>
-ThreadedBST<ItemType>& ThreadedBST<ItemType>::operator=(
-                      const ThreadedBST<ItemType>& right) {
+template <typename ItemType>
+ThreadedBST<ItemType> &
+ThreadedBST<ItemType>::operator=(const ThreadedBST<ItemType> &right) {
   this->rootPtr->setItem(right.rootPtr->getItem());
   this->preOrderCopy(right.rootPtr, this->rootPtr);
   this->threaded();

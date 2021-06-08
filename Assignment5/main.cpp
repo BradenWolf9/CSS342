@@ -20,6 +20,7 @@
 #include "treeNode.h"
 #include "threadedBST.h"
 #include <cassert>
+#include <iostream>
 
 /**
  * @brief testNodes function that creates treeNodes and tests
@@ -46,7 +47,7 @@ void testNodes() {
  * 
  */
 void testThreadedBST() {
-ThreadedBST<int> ourTree;
+  ThreadedBST<int> ourTree;
   ourTree.insert(10); // inserting in non incremental order
   ourTree.insert(7);
   ourTree.insert(15);
@@ -56,7 +57,7 @@ ThreadedBST<int> ourTree;
   ourTree.insert(18);
 
   // Test output of ourTree
-  std::cout << ourTree << std::endl;
+  std::cout << "ourTree: " << ourTree << std::endl;
 
   // Test copy c'tor and copy operator
   ThreadedBST<int> copyCtorTree(ourTree);
@@ -69,24 +70,24 @@ ThreadedBST<int> ourTree;
             << std::endl; // expecting 3
   std::cout << "Number of nodes in ourTree: " << ourTree.getNumberOfNodes()
             << std::endl;
-
-  // Test destructor
   ThreadedBST<int> empty;
   std::cout << "Print true(1) or false(0) isEmpty: " << empty.isEmpty()
             << std::endl; // should print 1
-  std::cout << ourTree << std::endl;
 
   // Test other constructor
   ThreadedBST<int> ctorTree(6);
   ctorTree.insert(3);
   ctorTree.insert(9);
-  std::cout << ctorTree << std::endl;
-  ctorTree.remove(9);
-  std::cout << ctorTree << std::endl;
-  assert(ctorTree.remove(6));
-  std::cout << ctorTree << std::endl;
-  assert(ourTree.remove(10));
+  std::cout << "\nctorTree: " << ctorTree << std::endl;
+  std::cout << "removing 9 from ctor tree, success: " << ctorTree.remove(9) << std::endl;
+  std::cout << "ctorTree: " << ctorTree << std::endl;
+  std::cout << "removing 6 from ctor tree, success: " << ctorTree.remove(6) << std::endl;
+  std::cout << "ctorTree: " << ctorTree << std::endl;
 
+  // Test removing root
+  assert(ourTree.remove(10));
+  
+  // Check if one node (root) is leaf
   assert(ctorTree.getRoot()->isLeaf());
   
   // Test more member functions
