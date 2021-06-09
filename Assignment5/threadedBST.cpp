@@ -1,7 +1,13 @@
+/**
+ * @file threadedBST.h
+ * @brief header file for ThreadedBST class
+ * @author Tristan Cortez and Braden Wolf
+ */
 #include "threadedBST.h"
 #include <iostream>
 #include <queue>
 
+// prints tree from lowest node item to highest node item
 template <typename Item>
 std::ostream &operator<<(std::ostream &output,
                          const ThreadedBST<Item> &theTree) {
@@ -22,15 +28,18 @@ std::ostream &operator<<(std::ostream &output,
   return output;
 }
 
+// basic Constructor for ThreadedBST
 template <typename ItemType> ThreadedBST<ItemType>::ThreadedBST() {
   this->rootPtr = nullptr;
 }
 
+// constructor for ThreadedBST but also creates the root
 template <typename ItemType>
 ThreadedBST<ItemType>::ThreadedBST(const ItemType &rootItem) {
   this->rootPtr = new TreeNode<ItemType>(rootItem);
 }
 
+// uses preOrderCopy to make a deep copy of tree
 template <typename ItemType>
 ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType> &tree) {
   this->rootPtr = new TreeNode<ItemType>;
@@ -39,13 +48,12 @@ ThreadedBST<ItemType>::ThreadedBST(const ThreadedBST<ItemType> &tree) {
   this->threadTree();
 }
 
+// calls makeEmpty to empty the tree and delete the nodes
 template <typename ItemType> ThreadedBST<ItemType>::~ThreadedBST() {
-  // if (!this->isEmpty()) {
-  //    std::cerr << this->rootPtr->getItem() << std::endl;
-  // }
   this->makeEmpty(this->rootPtr);
 }
 
+// if the rootPtr is nullptr then tree is empty
 template <typename ItemType> bool ThreadedBST<ItemType>::isEmpty() const {
   if (this->rootPtr == nullptr) {
     return true;
@@ -53,6 +61,7 @@ template <typename ItemType> bool ThreadedBST<ItemType>::isEmpty() const {
   return false;
 }
 
+// recursive function to get the height of the tree
 template <typename ItemType>
 int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType> *currNode) const {
   // base case
@@ -73,6 +82,7 @@ int ThreadedBST<ItemType>::getHeight(TreeNode<ItemType> *currNode) const {
   }
 }
 
+// returns the number of nodes in the tree
 template <typename ItemType>
 int ThreadedBST<ItemType>::getNumberOfNodes() const {
   std::queue<TreeNode<ItemType> *> q;
@@ -80,6 +90,7 @@ int ThreadedBST<ItemType>::getNumberOfNodes() const {
   return q.size();
 }
 
+// returns a pointer to the left most node from the node passed in
 template <typename ItemType>
 TreeNode<ItemType> *
 ThreadedBST<ItemType>::getLeftMost(TreeNode<ItemType> *currNode) const {
@@ -89,6 +100,7 @@ ThreadedBST<ItemType>::getLeftMost(TreeNode<ItemType> *currNode) const {
   return currNode;
 }
 
+// creates a new node with item in it and inserts that node into the tree
 template <typename ItemType> bool ThreadedBST<ItemType>::insert(ItemType item) {
   if (this->isEmpty()) {
     this->rootPtr = new TreeNode<ItemType>(item);
@@ -124,6 +136,7 @@ template <typename ItemType> bool ThreadedBST<ItemType>::insert(ItemType item) {
   }
 }
 
+// given an item will return a pointer to a node that has the same item
 template <typename ItemType>
 TreeNode<ItemType> *ThreadedBST<ItemType>::findNode(ItemType find) {
   TreeNode<ItemType> *currNode = this->rootPtr;
@@ -140,6 +153,7 @@ TreeNode<ItemType> *ThreadedBST<ItemType>::findNode(ItemType find) {
   return currNode;
 }
 
+// finds the parent of the node that has the same item as find
 template <typename ItemType>
 TreeNode<ItemType> *ThreadedBST<ItemType>::findParent(ItemType find) {
   TreeNode<ItemType> *currNode = this->rootPtr;
@@ -158,11 +172,13 @@ TreeNode<ItemType> *ThreadedBST<ItemType>::findParent(ItemType find) {
   return parent;
 }
 
+// returns a pointer to the root of the tree
 template <typename ItemType>
 TreeNode<ItemType> *ThreadedBST<ItemType>::getRoot() {
   return this->rootPtr;
 }
 
+// removes the root of the tree
 template <typename ItemType>
 bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType> *remove) {
   TreeNode<ItemType> *current = remove;
@@ -195,7 +211,6 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType> *remove) {
       return true;
     }
   }
-
   // if remove has one child
   else if (remove->getLeftChildPtr() != nullptr ||
            remove->getRightChildPtr() != nullptr) {
@@ -222,7 +237,6 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType> *remove) {
       return true;
     }
   }
-
   // if remove has no child
   else {
     delete remove;
@@ -231,6 +245,7 @@ bool ThreadedBST<ItemType>::removeRoot(TreeNode<ItemType> *remove) {
   }
 }
 
+// removes the node that holds the same item as passed in
 template <typename ItemType>
 bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   TreeNode<ItemType> *remove = findNode(toBeRemoved);
@@ -252,7 +267,6 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   else {
     parent->setRightChildPtr(nullptr);
   }
-
   // if remove has two children
   if (remove->getLeftChildPtr() != nullptr &&
       remove->getRightChildPtr() != nullptr) {
@@ -280,7 +294,6 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
       return true;
     }
   }
-
   // if remove has one child
   else if (remove->getLeftChildPtr() != nullptr ||
            remove->getRightChildPtr() != nullptr) {
@@ -322,6 +335,7 @@ bool ThreadedBST<ItemType>::remove(ItemType toBeRemoved) {
   }
 }
 
+// traverses tree in order and fills queue with pointers to nodes of the tree
 template <typename ItemType>
 void ThreadedBST<ItemType>::inOrderTraversal(
     TreeNode<ItemType> *currNode, std::queue<TreeNode<ItemType> *> &q) const {
@@ -340,6 +354,7 @@ void ThreadedBST<ItemType>::inOrderTraversal(
   }
 }
 
+// threads the tree
 template <typename ItemType> void ThreadedBST<ItemType>::threadTree() {
   std::queue<TreeNode<ItemType> *> q;
   inOrderTraversal(this->rootPtr, q);
@@ -356,13 +371,12 @@ template <typename ItemType> void ThreadedBST<ItemType>::threadTree() {
   }
 }
 
+// makes the tree empty
 template <typename ItemType>
 void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   if (currNode == nullptr) {
     return;
   }
-  std::cout << currNode->getItem() << std::endl;
-
   // base case
   if (currNode->emptyIsLeaf()) {
     delete currNode;
@@ -379,6 +393,7 @@ void ThreadedBST<ItemType>::makeEmpty(TreeNode<ItemType> *currNode) {
   return;
 }
 
+// recursive function to help with deep copying
 template <typename ItemType>
 void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
                                          TreeNode<ItemType> *prevNode) {
@@ -391,22 +406,18 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
     }
     return;
   }
-
   // create left child and right child
   TreeNode<ItemType> *leftChild;
   leftChild = new TreeNode<ItemType>;
   TreeNode<ItemType> *rightChild;
   rightChild = new TreeNode<ItemType>;
-
   // set previous left and right child
   prevNode->setLeftChildPtr(leftChild);
   prevNode->setRightChildPtr(rightChild);
-
   // set items of children
   prevNode->getLeftChildPtr()->setItem(treeNode->getLeftChildPtr()->getItem());
   prevNode->getRightChildPtr()->setItem(
       treeNode->getRightChildPtr()->getItem());
-
   // set bool for right thread
   if (treeNode->getRightIsThread()) {
     prevNode->setRightIsThread(true);
@@ -416,6 +427,7 @@ void ThreadedBST<ItemType>::preOrderCopy(TreeNode<ItemType> *treeNode,
   preOrderCopy(treeNode->getRightChildPtr(), prevNode->getRightChildPtr());
 }
 
+// uses preOrderCopy to make a deep copy of right
 template <typename ItemType>
 ThreadedBST<ItemType> &
 ThreadedBST<ItemType>::operator=(const ThreadedBST<ItemType> &right) {
