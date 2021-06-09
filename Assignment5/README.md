@@ -10,10 +10,10 @@ our Tree:
                / \   / \
               3  8  11  18
 remove(10)
+our Tree:
 
                   11
                  /  \
                 7    15
                / \    \
               3   8    18
-our Tree:
