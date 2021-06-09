@@ -23,6 +23,7 @@ int main() {
   assert(node3 > node5);
 
   ThreadedBST<int> ourTree;
+  assert(ourTree.getNumberOfNodes() == 0);
   ourTree.insert(10);
   ourTree.insert(7);
   ourTree.insert(15);
@@ -30,6 +31,10 @@ int main() {
   ourTree.insert(8);
   ourTree.insert(11);
   ourTree.insert(18);
+
+  ThreadedBST<int> testEmptyTree;
+
+  ourTree = testEmptyTree;
 
   // Test output of ourTree
   std::cout << ourTree << std::endl;
