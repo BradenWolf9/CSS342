@@ -1,27 +1,43 @@
-// Take single line argument (int n)
-// the program should create a TBST with Keytype being int
-// insert the numbers in non incremental order
-// that means the iterator should not use a stack (use thread links)
-// then make a copy of the tree
-// delete all even numbers from the copy
-// Lastly use an iterator to perform an INORDER traversal of each tree,
-// outputting to std::cout
+/**
+ * @file main.cpp
+ * @author Tristan, Braden
+ * @brief Main is used to create TreeNodes and several ThreadBST 
+ * Take single line argument (int n)
+ * the program should create a both objects with Keytype being int
+ * insert the numbers in non incremental order
+ * that means the iterator should not use a stack (use thread links)
+ * then make a copy of the tree
+ * delete all even numbers from the copy
+ * Lastly use an iterator to perform an INORDER traversal of each tree,
+ * outputting to std::cout
+ * @version 0.1
+ * @date 2021-06-07
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "threadedBST.h"
 #include "treeNode.h"
 #include <cassert>
 #include <iostream>
 
+/**
+ * @brief driver function that creates treeNodes 
+ * and threadedBST and tests their member functions.
+ * 
+ */
 int main() {
+
+  // TreeNode obj
   TreeNode<int> node1();
   TreeNode<int> node2(5);
-  // std::cout << node2.getItem() << std::endl;
   TreeNode<int> node3(5);
   assert(node2 == node3);
-  // node1 = node2;
   TreeNode<int> node5(4);
   assert(node5 < node3);
   assert(node3 > node5);
 
+  // ThreadedBST obj
   ThreadedBST<int> ourTree;
   ourTree.insert(10);
   ourTree.insert(7);
@@ -47,12 +63,12 @@ int main() {
             << std::endl;
 
   // Test destructor
-  // std::cout << tnode0->getItem() << std::endl;
   ThreadedBST<int> empty;
   std::cout << "Print true(1) or false(0) isEmpty: " << empty.isEmpty()
             << std::endl; // should print 1
   std::cout << ourTree << std::endl;
 
+  // Test other c'tor
   ThreadedBST<int> ctorTree(6);
   ctorTree.insert(3);
   ctorTree.insert(9);
@@ -61,10 +77,13 @@ int main() {
   std::cout << ctorTree << std::endl;
   assert(ctorTree.remove(6));
   std::cout << ctorTree << std::endl;
+
+  // Test removing root
   assert(ourTree.remove(10));
 
   std::cout << "Our tree after removing 10: " << ourTree << std::endl;
 
+  // Test member funcs
   assert(ctorTree.getRoot()->isLeaf());
 
   TreeNode<int> *find = ourTree.findNode(18);
@@ -72,5 +91,6 @@ int main() {
 
   assert(find->getItem() == 18);
   assert(findParent->getItem() == 15);
-  std::cout << "we fnished here" << std::endl;
+
+  std::cout << "We finished here!" << std::endl;
 }
