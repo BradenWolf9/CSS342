@@ -92,7 +92,7 @@ void TreeNode<ItemType>::setRightIsThread(bool thread) {
 
 // Returns bool if there is a thread on TreeNode obj
 template <typename ItemType>
-bool TreeNode<ItemType>::getRightIsThread() {
+bool TreeNode<ItemType>::getRightIsThread() const {
   return this->rightIsThread;
 }
 
@@ -103,19 +103,14 @@ void TreeNode<ItemType>::operator=(const TreeNode<ItemType> &right) {
   this->leftChildPtr = right.getLeftChildPtr();
   this->rightChildPtr = right.getRightChildPtr();
   this->rightIsThread = right.getRightIsThread();
-  this->leftIsThread = right.getLeftChildPtr();
 }
 
 // Equality operator
 template <typename ItemType>
 bool TreeNode<ItemType>::operator==(const TreeNode &right) const {
   if (this->item == right.item) {
-    // this->leftChildPtr == right.leftChildPtr &&
-    // this->rightChildPtr == right.rightChildPtr &&
-    // this->leftIsThread == right.leftIsThread &&
-    // this->rightIsThread == right.rightIsThread) {
-    return true;
-  }
+        return true;
+      }
   return false;
 }
 

@@ -147,7 +147,7 @@ class TreeNode
    * @return true
    * @return false
    */
-  bool getRightIsThread();
+  bool getRightIsThread() const;
 
   /**
    * @brief Copy Operator
